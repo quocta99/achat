@@ -176,7 +176,7 @@
                 </div>
             </div>
             <div class="messages flex-fill d-flex flex-column hidden-scrollbar p-3">
-                <div class="message__item mb-3">
+                <div class="message__item">
                     <div class="message__item-float d-flex">
                         <div class="avatar">
                             <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
@@ -191,7 +191,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="message__item mb-3">
+                <div class="message__item mt-3">
                     <div class="message__item-float d-flex">
                         <div class="avatar">
                             <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
@@ -206,7 +206,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="message__item sender mb-3">
+                <div class="message__item sender mt-3">
                     <div class="message__item-float d-flex">
                         <div class="avatar">
                             <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
@@ -221,7 +221,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="message__item sender mb-3">
+                <div class="message__item sender mt-3">
                     <div class="message__item-float d-flex">
                         <div class="avatar">
                             <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
@@ -239,6 +239,11 @@
                             </div>
                             <span class="mb-0 mt-1 text-secondary d-inline-block text-truncate">Lawrence Collins, 2.38pm</span>
                         </div>
+                    </div>
+                </div>
+                <div class="message__item sender mt-1">
+                    <div class="message__item-float d-flex">
+                        <span class="mb-0 mt-1 text-secondary d-inline-block text-truncate"><i class="fal fa-check"></i> Đã xem</span>
                     </div>
                 </div>
             </div>
