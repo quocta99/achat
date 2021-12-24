@@ -11114,3 +11114,9 @@ a.text-dark:focus {
   overflow: hidden;
 }
 
+#chat .list-user {
+  max-height: 60vh;
+  overflow: auto;
+  border-radius: 0.5rem;
+}
+
