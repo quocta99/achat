@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Facade\Chat;
+use App\Http\Requests\CreateConversation;
+use App\Http\Requests\SendMessage;
 use App\Models\Conversation;
 use App\User;
 use Illuminate\Http\Request;
@@ -87,6 +89,35 @@ class ChatController extends Controller
 
         return response()->json([
             'data' => $messages
+        ]);
+    }
+
+    /**
+     * Create conversation function
+     *
+     * @return void
+     */
+    public function createConversation(CreateConversation $request)
+    {
+        $conversation = Chat::createConversation($request->participants ?: [], $request->setting ?: [])
+            ->getConversation();
+
+        return response()->json([
+            "data" => $conversation
+        ]);
+    }
+
+    /**
+     * Send message function
+     *
+     * @return void
+     */
+    public function sendMessage(SendMessage $request)
+    {
+        $message = Chat::send($request->message, $request->type ?: 'text', $request->attachment ?: [], $request->parent);
+
+        return response()->json([
+            "data" => $message
         ]);
     }
 }

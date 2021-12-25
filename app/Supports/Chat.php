@@ -241,7 +241,7 @@ class Chat {
             'participant_id' => $participant->id,
             'conversation_type' => $type,
             'message' => $message,
-            'message_attachment_url' => $attachment,
+            'message_attachment' => $attachment,
             'parent_id' => $parent
         ]);
 
