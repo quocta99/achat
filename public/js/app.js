@@ -1979,6 +1979,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['auth'],
@@ -37589,7 +37591,7 @@ var render = function () {
             "col-xl-3 col-lg-5 col-md-5 col-sm-12 p-0 bg-white h-100 border-right d-flex flex-column",
         },
         [
-          _c("header-component"),
+          _c("header-component", [_vm._t("logout")], 2),
           _vm._v(" "),
           _c(
             "div",
@@ -38278,14 +38280,19 @@ var render = function () {
           attrs: {
             width: "45",
             height: "45",
-            src: "https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg",
+            src: _vm.currentUser.avatar,
             alt: "",
           },
         }),
         _vm._v(" "),
-        _vm._m(0),
+        _c("div", { staticClass: "header-box flex-fill" }, [
+          _c("p", {
+            staticClass: "header-name mb-0",
+            domProps: { textContent: _vm._s(_vm.currentUser.name) },
+          }),
+        ]),
         _vm._v(" "),
-        _vm._t("logout"),
+        _vm._t("default"),
       ],
       2
     ),
@@ -38294,9 +38301,9 @@ var render = function () {
       "div",
       { staticClass: "d-flex align-items-center" },
       [
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
-        _vm._m(2),
+        _vm._m(1),
         _vm._v(" "),
         _c("modal-create-component"),
       ],
@@ -38305,16 +38312,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "header-box flex-fill" }, [
-      _c("p", { staticClass: "header-name mb-0" }, [
-        _vm._v("Lawrence Collins"),
-      ]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

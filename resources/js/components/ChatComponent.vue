@@ -1,7 +1,9 @@
 <template>
     <div class="row m-0 h-100">
         <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 p-0 bg-white h-100 border-right d-flex flex-column">
-            <header-component />
+            <header-component>
+                <slot name="logout" />
+            </header-component>
             <div class="side-bar flex-fill d-flex flex-column hidden-scrollbar">
                 <conversation-component />
                 <div class="side-bar__item d-flex align-items-center p-3">
