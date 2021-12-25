@@ -20,4 +20,15 @@ class Message extends Model
     {
         return $this->belongsTo(User::class, 'sender_id', 'id');
     }
+
+    /**
+     * Message attachment attribute function
+     *
+     * @param [type] $value
+     * @return void
+     */
+    public function getMessageAttachmentAttribute($value)
+    {
+        return !blank($value) ? json_decode($value, true) ?? [] : [];
+    }
 }

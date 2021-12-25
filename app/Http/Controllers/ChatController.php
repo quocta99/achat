@@ -7,7 +7,7 @@ use App\Http\Requests\CreateConversation;
 use App\Http\Requests\SendMessage;
 use App\Models\Conversation;
 use App\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
@@ -114,6 +114,27 @@ class ChatController extends Controller
      */
     public function sendMessage(SendMessage $request)
     {
+        if($request->file('file')) {
+            $file = $request->file('file');
+
+            $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('chat/' . auth()->id() . '/images', $fileName);
+
+            $request->merge([
+                'type' => 'image',
+                'attachment' => [
+                    'image' => [
+                        'name' => $file->getClientOriginalName(),
+                        'extension' => $file->getClientOriginalExtension(),
+                        'real_path' => $file->getRealPath(),
+                        'size' => $file->getSize(),
+                        'mime_type' => $file->getMimeType(),
+                        'path' => '/chat/' . auth()->id() . '/images/' . $fileName
+                    ]
+                ]
+            ]);
+        }
+
         $message = Chat::send($request->message, $request->type ?: 'text', $request->attachment ?: [], $request->parent);
 
         return response()->json([

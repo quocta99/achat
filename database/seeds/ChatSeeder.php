@@ -15,15 +15,18 @@ class ChatSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('users')->truncate();
         DB::table('conversations')->truncate();
         DB::table('participants')->truncate();
         DB::table('messages')->truncate();
         DB::table('readed_messages')->truncate();
 
-        User::find(1)
-            ->update([
-                'avatar' => '/images/avatar-1.jpeg'
-            ]);
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('password'),
+            'avatar' => '/images/avatar-1.jpeg'
+        ]);
 
         $faker = \Faker\Factory::create();
 
@@ -31,7 +34,8 @@ class ChatSeeder extends Seeder
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->email,
-                'password' => bcrypt('password')
+                'password' => bcrypt('password'),
+                'avatar' => (bool)rand(0,1) ? '/images/avatar-2.jpeg' : '/images/avatar-3.jpeg'
             ]);
         }
 

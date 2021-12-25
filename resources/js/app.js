@@ -32,6 +32,14 @@ import store from './store'
 import mixins from './mixins';
 Vue.mixin(mixins)
 
+import _ from 'lodash'
+Vue.prototype._ = _
+
+Vue.use(require('vue-moment'))
+
+import InfiniteLoading from 'vue-infinite-loading';
+Vue.use(InfiniteLoading, { /* options */ });
+
 const app = new Vue({
     el: '#chat',
     store

@@ -5,77 +5,58 @@
                 <slot name="logout" />
             </header-component>
             <div class="side-bar flex-fill d-flex flex-column hidden-scrollbar">
-                <conversation-component />
-                <div class="side-bar__item d-flex align-items-center p-3">
-                    <div class="avatar">
-                        <img width="50" height="50" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                    </div>
-                    <div class="header-box flex-fill side-bar__item-content">
-                        <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                        <span class="mb-0 text-secondary d-inline-block text-truncate">Apple pie bonbon cheesecake tiramisu</span>
-                    </div>
-                    <div class="time header-box ml-1">
-                        <span class="time__ago mb-1">2.38pm</span>
-                        <span class="badge badge-pill badge-danger">4</span>
-                    </div>
-                </div>
-                <div class="side-bar__item d-flex align-items-center p-3 active">
-                    <div class="avatar">
-                        <img width="50" height="50" src="https://i.pinimg.com/736x/24/3f/e4/243fe4fa4293f1cb878d9dce142785a0.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                    </div>
-                    <div class="header-box flex-fill side-bar__item-content">
-                        <p class="header-name mb-0 d-inline-block text-truncate">Nicolas Collins</p>
-                        <span class="mb-0 text-secondary d-inline-block text-truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam tenetur autem maxime, facilis ipsa natus incidunt ullam a dignissimos, quod numquam qui beatae odit dolorem saepe inventore veniam quas similique.</span>
-                    </div>
-                    <div class="time header-box ml-1">
-                        <span class="time__ago mb-1">2.38pm</span>
-                        <span class="badge badge-pill badge-danger">4</span>
-                    </div>
-                </div>
-                <div class="side-bar__item d-flex align-items-center p-3">
-                    <div class="avatar">
-                        <img width="50" height="50" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                    </div>
-                    <div class="header-box flex-fill side-bar__item-content">
-                        <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                        <span class="mb-0 text-secondary d-inline-block text-truncate">Apple pie bonbon cheesecake tiramisu</span>
-                    </div>
-                    <div class="time header-box ml-1">
-                        <span class="time__ago mb-1">2.38pm</span>
-                        <span class="badge badge-pill badge-danger">4</span>
-                    </div>
-                </div>
-                <div class="side-bar__item d-flex align-items-center p-3">
-                    <div class="avatar">
-                        <img width="50" height="50" src="https://i.pinimg.com/736x/24/3f/e4/243fe4fa4293f1cb878d9dce142785a0.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                    </div>
-                    <div class="header-box flex-fill side-bar__item-content">
-                        <p class="header-name mb-0 d-inline-block text-truncate">Nicolas Collins</p>
-                        <span class="mb-0 text-secondary d-inline-block text-truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam tenetur autem maxime, facilis ipsa natus incidunt ullam a dignissimos, quod numquam qui beatae odit dolorem saepe inventore veniam quas similique.</span>
-                    </div>
-                    <div class="time header-box ml-1">
-                        <span class="time__ago mb-1">2.38pm</span>
-                        <span class="badge badge-pill badge-danger">4</span>
-                    </div>
-                </div>
+                <template v-for="(conversation, index) in conversations">
+                    <conversation-component :key="index" :conversation="conversation" />
+                </template>
+                <infinite-loading @infinite="infiniteHandler"></infinite-loading>
             </div>
         </div>
-        <detail-conversation-component />
+        <no-message-component />
+        <!-- <detail-conversation-component /> -->
     </div>
 </template>
 
 <script>
-    import {mapMutations} from 'vuex'
+    import {mapGetters, mapMutations} from 'vuex'
 
     export default {
         props: ['auth'],
-        mounted() {
-            this.setAuth(this.auth)  
+        data() {
+            return {
+                last_conversation_id: null
+            }
+        },
+        async mounted() {
+            this.setAuth(this.auth)
+        },
+        computed: {
+            ...mapGetters({
+                conversations: 'getConversations'
+            })
         },
         methods: {
             ...mapMutations({
-                setAuth: 'setAuth'
-            })
+                setAuth: 'setAuth',
+                setConversations: 'setConversations'
+            }),
+            async fetchConversations(query = {}) {
+                return await axios.get('/chat/conversation', query)
+            },
+            async infiniteHandler($state) {
+                const res = await axios.get('/chat/conversation', this.last_conversation_id ? {
+                    params: {
+                        last_conversation_id: this.last_conversation_id
+                    }
+                } : {})
+                if(!!res.data) {
+                    this.setConversations(_.get(res, 'data.data.conversations', []))
+                    this.last_conversation_id = _.get(res, 'data.data.last_conversation_id', null)
+                }
+                $state.loaded()
+                if(_.get(res, 'data.data.conversations', []).length == 0) {
+                    $state.complete()
+                }
+            }
         }
     }
 </script>
