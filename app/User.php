@@ -36,4 +36,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getAvatarAttribute($value) {
+        return $value ?: ((bool)rand(0,1) ? '/images/avatar-2.jpeg' : '/images/avatar-3.jpeg');
+    }
 }

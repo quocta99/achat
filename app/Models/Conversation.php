@@ -31,9 +31,26 @@ class Conversation extends Model
         return $this->hasMany(Message::class);
     }
 
+    /**
+     * Last message function
+     *
+     * @return HasOne
+     */
     public function lastMessage(): HasOne
     {
         return $this->hasOne(Message::class)
             ->orderByDesc('id');
     }
+
+    /**
+     * Data attribute function
+     *
+     * @param [type] $value
+     * @return void
+     */
+    public function getDataAttribute($value)
+    {
+        return !blank($value) ? json_decode($value, true) ?? [] : [];
+    }
+
 }

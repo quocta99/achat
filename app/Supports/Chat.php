@@ -16,6 +16,28 @@ class Chat {
     protected $conversation;
 
     /**
+     * Conversation with variable
+     *
+     * @var [type]
+     */
+    protected $conversationWith;
+
+    /**
+     * Construct function
+     */
+    public function __construct()
+    {
+        $this->conversationWith = [
+            'participants' => function($q) {
+                $q->where('user_id', '!=', auth()->id());
+            },
+            'participants.user',
+            'lastMessage', 
+            'lastMessage.sender'
+        ];
+    }
+
+    /**
      * Set conversation function
      *
      * @param [type] $conversation
@@ -37,7 +59,7 @@ class Chat {
     public function getConversation()
     {
         return $this->conversation
-            ->load('lastMessage', 'lastMessage.sender');
+            ->load($this->conversationWith);
     }
 
     /**
@@ -240,6 +262,7 @@ class Chat {
             ->when($last_id != 0, function($q) use($last_id) {
                 $q->where('id', '<', $last_id);
             })
+            ->where('conversation_id', $this->conversation->id ?? null)
             ->limit($limit)
             ->get();
 
@@ -258,7 +281,7 @@ class Chat {
     public function getConversations($last_id = 0, $limit = 12)
     {
         $conversations = app(Conversation::class)
-            ->with('lastMessage', 'lastMessage.sender')
+            ->with($this->conversationWith)
             ->join(DB::raw('(SELECT MAX(id), MAX(created_at) as last_message_created_at, conversation_id FROM messages GROUP BY conversation_id) msg_max'), function($join) {
                 $join->on('msg_max.conversation_id', '=', 'conversations.id');
             })
