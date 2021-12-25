@@ -5,7 +5,7 @@
         <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 p-0 bg-white h-100 border-right d-flex flex-column">
             <div class="header border-bottom p-2 px-3">
                 <div class="d-flex align-items-center mb-4">
-                    <img width="45" height="45" src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                    <img width="45" height="45" src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                     <div class="header-box flex-fill">
                         <p class="header-name mb-0">Lawrence Collins</p>
                     </div>
@@ -51,7 +51,7 @@
                                     <div class="list-user mt-3 border">
                                         <div class="side-bar__item d-flex align-items-center p-2">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -60,7 +60,7 @@
                                         </div>
                                         <div class="side-bar__item d-flex align-items-center p-2 active">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -69,7 +69,7 @@
                                         </div>
                                         <div class="side-bar__item d-flex align-items-center p-2">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -78,7 +78,7 @@
                                         </div>
                                         <div class="side-bar__item d-flex align-items-center p-2">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="side-bar__item d-flex align-items-center p-2">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="side-bar__item d-flex align-items-center p-2">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -105,7 +105,7 @@
                                         </div>
                                         <div class="side-bar__item d-flex align-items-center p-2">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -114,7 +114,7 @@
                                         </div>
                                         <div class="side-bar__item d-flex align-items-center p-2">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="side-bar__item d-flex align-items-center p-2">
                                             <div class="avatar">
-                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                                             </div>
                                             <div class="header-box flex-fill side-bar__item-content">
                                                 <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -140,7 +140,7 @@
             <div class="side-bar flex-fill d-flex flex-column hidden-scrollbar">
                 <div class="side-bar__item d-flex align-items-center p-3">
                     <div class="avatar">
-                        <img width="50" height="50" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                        <img width="50" height="50" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                     </div>
                     <div class="header-box flex-fill side-bar__item-content">
                         <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -153,7 +153,7 @@
                 </div>
                 <div class="side-bar__item d-flex align-items-center p-3 active">
                     <div class="avatar">
-                        <img width="50" height="50" src="https://i.pinimg.com/736x/24/3f/e4/243fe4fa4293f1cb878d9dce142785a0.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                        <img width="50" height="50" src="https://i.pinimg.com/736x/24/3f/e4/243fe4fa4293f1cb878d9dce142785a0.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                     </div>
                     <div class="header-box flex-fill side-bar__item-content">
                         <p class="header-name mb-0 d-inline-block text-truncate">Nicolas Collins</p>
@@ -166,7 +166,7 @@
                 </div>
                 <div class="side-bar__item d-flex align-items-center p-3">
                     <div class="avatar">
-                        <img width="50" height="50" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                        <img width="50" height="50" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                     </div>
                     <div class="header-box flex-fill side-bar__item-content">
                         <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
@@ -179,7 +179,7 @@
                 </div>
                 <div class="side-bar__item d-flex align-items-center p-3">
                     <div class="avatar">
-                        <img width="50" height="50" src="https://i.pinimg.com/736x/24/3f/e4/243fe4fa4293f1cb878d9dce142785a0.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                        <img width="50" height="50" src="https://i.pinimg.com/736x/24/3f/e4/243fe4fa4293f1cb878d9dce142785a0.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                     </div>
                     <div class="header-box flex-fill side-bar__item-content">
                         <p class="header-name mb-0 d-inline-block text-truncate">Nicolas Collins</p>
@@ -195,7 +195,7 @@
         <div class="col-xl-9 col-lg-7 col-md-7 col-sm-0 p-0 d-flex flex-column h-100">
             <div class="header border-bottom p-2 px-3 bg-white">
                 <div class="d-flex align-items-center">
-                    <img width="45" height="45" src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                    <img width="45" height="45" src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                     <div class="header-box flex-fill">
                         <p class="header-name mb-0">Lawrence Collins</p>
                         <small class="text-secondary">Is online</small>
@@ -206,7 +206,7 @@
                 <div class="message__item">
                     <div class="message__item-float d-flex">
                         <div class="avatar">
-                            <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                            <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                         </div>
                         <div class="header-box flex-fill side-bar__item-content">
                             <div class="message__item-content border">
@@ -221,7 +221,7 @@
                 <div class="message__item mt-3">
                     <div class="message__item-float d-flex">
                         <div class="avatar">
-                            <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                            <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                         </div>
                         <div class="header-box flex-fill side-bar__item-content">
                             <div class="message__item-content border">
@@ -236,7 +236,7 @@
                 <div class="message__item sender mt-3">
                     <div class="message__item-float d-flex">
                         <div class="avatar">
-                            <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                            <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                         </div>
                         <div class="header-box flex-fill side-bar__item-content">
                             <div class="message__item-content border">
@@ -251,7 +251,7 @@
                 <div class="message__item sender mt-3">
                     <div class="message__item-float d-flex">
                         <div class="avatar">
-                            <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2" alt="" />
+                            <img width="40" height="40" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
                         </div>
                         <div class="header-box flex-fill side-bar__item-content">
                             <div class="message__item-content border">
@@ -268,9 +268,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="message__item sender mt-1">
-                    <div class="message__item-float d-flex">
-                        <span class="mb-0 mt-1 text-secondary d-inline-block text-truncate"><i class="fal fa-check"></i> Đã xem</span>
+                <div class="message__item sender mt-2">
+                    <div class="message__item-float d-flex align-items-center flex-row justify-content-end">
+                        <span class="mb-0 text-secondary d-inline-block text-truncate"><i class="fal fa-check"></i> Đã xem</span>
+                        <div class="d-flex">
+                            <img width="20" height="20" src="https://i.pinimg.com/736x/24/3f/e4/243fe4fa4293f1cb878d9dce142785a0.jpg" class="img-fluid header-avatar ml-1 border" alt="" />
+                        </div>
                     </div>
                 </div>
             </div>
