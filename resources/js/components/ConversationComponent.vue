@@ -1,5 +1,8 @@
 <template>
-    <div class="side-bar__item d-flex align-items-center p-3">
+    <div :class="{
+        'side-bar__item d-flex align-items-center p-3': true,
+        'active': selected.id == conversation.id
+    }" @click="setConversationDetail(conversation)">
         <div class="avatar">
             <img width="50" height="50" :src="_.get(conversation, 'participants.[0].user.avatar')" class="img-fluid header-avatar mr-2 border" alt="" />
         </div>
@@ -17,7 +20,18 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 export default {
-    props: ['conversation']
+    props: ['conversation'],
+    computed: {
+        ...mapGetters({
+            selected: 'getConversationDetail'
+        })
+    },
+    methods: {
+        ...mapMutations({
+            setConversationDetail: 'setConversationDetail'
+        })
+    }
 }
 </script>
