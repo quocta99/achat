@@ -2,7 +2,7 @@
     <div :class="{
         'side-bar__item d-flex align-items-center p-3': true,
         'active': selected.id == conversation.id
-    }" @click="setConversationDetail(conversation)">
+    }" @click="handleSelectConversation">
         <div class="avatar">
             <img width="50" height="50" :src="_.get(conversation, 'participants.[0].user.avatar')" class="img-fluid header-avatar mr-2 border" alt="" />
         </div>
@@ -31,7 +31,11 @@ export default {
     methods: {
         ...mapMutations({
             setConversationDetail: 'setConversationDetail'
-        })
+        }),
+        handleSelectConversation() {
+            this.setConversationDetail(this.conversation)
+            window.history.pushState('', '', `#conversation_${this.conversation.id}`)
+        }
     }
 }
 </script>

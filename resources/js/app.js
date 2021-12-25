@@ -40,6 +40,9 @@ Vue.use(require('vue-moment'))
 import InfiniteLoading from 'vue-infinite-loading';
 Vue.use(InfiniteLoading, { /* options */ });
 
+import VueChatScroll from 'vue-chat-scroll-image'
+Vue.use(VueChatScroll)
+
 const app = new Vue({
     el: '#chat',
     store

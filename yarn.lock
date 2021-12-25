@@ -6919,6 +6919,11 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
+vue-chat-scroll-image@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-chat-scroll-image/-/vue-chat-scroll-image-1.0.3.tgz#6a65cb6763cd6cf08dec901aa2004bdaec97b52e"
+  integrity sha512-RvMiDVCYJkjW0z5ENkVYZ+EgU64VVFaKtWL2Xr9/yXvbdTS78MZlRpwObREaPWqR2b3zSFTg7QsWcF2ylvNEAA==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"

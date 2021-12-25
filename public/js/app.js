@@ -1972,18 +1972,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var conversaionID, res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _this.setAuth(_this.auth);
 
-            case 1:
+              _context.prev = 1;
+              conversaionID = window.location.hash.replace('#conversation_', '');
+
+              if (!(!!conversaionID && conversaionID != undefined)) {
+                _context.next = 8;
+                break;
+              }
+
+              _context.next = 6;
+              return axios.get("/chat/conversation/".concat(conversaionID));
+
+            case 6:
+              res = _context.sent;
+
+              if (_.get(res, 'data.data')) {
+                _this.setConversationDetail(_.get(res, 'data.data', ''));
+              }
+
+            case 8:
+              _context.next = 13;
+              break;
+
+            case 10:
+              _context.prev = 10;
+              _context.t0 = _context["catch"](1);
+              console.log('error', _context.t0);
+
+            case 13:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee);
+      }, _callee, null, [[1, 10]]);
     }))();
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
@@ -1992,7 +2020,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   })),
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
     setAuth: 'setAuth',
-    setConversations: 'setConversations'
+    setConversations: 'setConversations',
+    setConversationDetail: 'setConversationDetail'
   })), {}, {
     fetchConversations: function fetchConversations() {
       var _arguments = arguments;
@@ -2104,9 +2133,239 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     selected: 'getConversationDetail'
   })),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
     setConversationDetail: 'setConversationDetail'
-  }))
+  })), {}, {
+    handleSelectConversation: function handleSelectConversation() {
+      this.setConversationDetail(this.conversation);
+      window.history.pushState('', '', "#conversation_".concat(this.conversation.id));
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DetailConversationComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DetailConversationComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      last_message_id: null
+    };
+  },
+  mounted: function mounted() {
+    this.last_message_id = null;
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
+    conversation: 'getConversationDetail',
+    messages: 'getMessages'
+  })),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
+    setMessages: 'setMessages'
+  })), {}, {
+    infiniteHandler: function infiniteHandler($state) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/chat/conversation/".concat(_this.conversation.id, "/message"), _this.last_message_id ? {
+                  params: {
+                    last_message_id: _this.last_message_id
+                  }
+                } : {});
+
+              case 2:
+                res = _context.sent;
+
+                if (!!res.data) {
+                  _this.setMessages(_.get(res, 'data.data.messages', []));
+
+                  _this.last_message_id = _.get(res, 'data.data.last_message_id', null);
+                }
+
+                $state.loaded();
+
+                if (_.get(res, 'data.data.messages', []).length == 0) {
+                  $state.complete();
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MessageComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MessageComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['message']
 });
 
 /***/ }),
@@ -38447,6 +38706,127 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-chat-scroll-image/dist/vue-chat-scroll-image.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/vue-chat-scroll-image/dist/vue-chat-scroll-image.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	undefined;
+}(this, (function () { 'use strict';
+
+/**
+ * @name VueJS vChatScroll (vue-chat-scroll)
+ * @description Monitors an element and scrolls to the bottom if a new child is added
+ * @author Theodore Messinezis <theo@theomessin.com>
+ * @file v-chat-scroll  directive definition
+ */
+
+var scrollToBottom = function scrollToBottom(el, smooth) {
+  if (typeof el.scroll === "function") {
+    el.scroll({
+      top: el.scrollHeight,
+      behavior: smooth ? 'smooth' : 'instant'
+    });
+  } else {
+    el.scrollTop = el.scrollHeight;
+  }
+};
+
+var imageLoaded = function imageLoaded(src) {
+  var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+
+  if (typeof callback !== 'function' || typeof src !== 'string' || !src) return;
+  var image = new Image();
+  image.src = src;
+  if (image.complete) {
+    callback();
+  } else {
+    image.onload = callback;
+  }
+};
+
+var emit = function emit(vnode, name, data) {
+  var handlers = vnode.data && vnode.data.on || vnode.componentOptions && vnode.componentOptions.listeners;
+
+  if (handlers && handlers[name]) {
+    handlers[name].fns(data);
+  }
+};
+
+var vScrollDown = {
+  bind: function bind(el, binding, vnode) {
+    var scrolled = false;
+    var timeout = void 0;
+
+    el.addEventListener('scroll', function (e) {
+      if (timeout) window.clearTimeout(timeout);
+      timeout = window.setTimeout(function () {
+        scrolled = el.scrollTop + el.clientHeight + 1 < el.scrollHeight;
+        if (el.scrollTop < 10) {
+          emit(vnode, 'scroll-top', "123");
+        }
+      }, 200);
+    });
+
+    new MutationObserver(function (e) {
+      var config = binding.value || {};
+      var pause = config.always === false && scrolled;
+
+      if (config.scrollonremoved) {
+        if (pause || e[e.length - 1].addedNodes.length != 1 && e[e.length - 1].removedNodes.length != 1) return;
+      } else {
+        if (pause || e[e.length - 1].addedNodes.length != 1) return;
+      }
+
+      if (config.image) {
+        e.forEach(function (mutation) {
+          if (mutation.addedNodes.length != 1) return;
+          mutation.addedNodes.forEach(function (node) {
+            if (typeof node.querySelectorAll !== 'function') return;
+            var imgs = node.querySelectorAll('img');
+            imgs.forEach(function (img) {
+              imageLoaded(img.getAttribute('src'), function () {
+                scrollToBottom(el, config.smooth);
+              });
+            });
+          });
+        });
+      }
+
+      scrollToBottom(el, config.smooth);
+    }).observe(el, { childList: true, subtree: true });
+  },
+  inserted: scrollToBottom
+};
+
+/**
+ * @name VueJS vChatScroll (vue-chat-scroll)
+ * @description Monitors an element and scrolls to the bottom if a new child is added
+ * @author Theodore Messinezis <theo@theomessin.com>
+ * @file vue-chat-scroll plugin definition
+ */
+
+var VueChatScroll = {
+  install: function install(Vue, options) {
+    Vue.directive('chat-scroll', vScrollDown);
+  }
+};
+
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(VueChatScroll);
+}
+
+return VueChatScroll;
+
+})));
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js":
 /*!************************************************************************!*\
   !*** ./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js ***!
@@ -38524,7 +38904,9 @@ var render = function () {
             },
             [_vm._m(0)]
           )
-        : _c("detail-conversation-component"),
+        : _c("detail-conversation-component", {
+            key: _vm._.get(_vm.selected, "id", -1),
+          }),
     ],
     1
   )
@@ -38580,11 +38962,7 @@ var render = function () {
         "side-bar__item d-flex align-items-center p-3": true,
         active: _vm.selected.id == _vm.conversation.id,
       },
-      on: {
-        click: function ($event) {
-          return _vm.setConversationDetail(_vm.conversation)
-        },
-      },
+      on: { click: _vm.handleSelectConversation },
     },
     [
       _c("div", { staticClass: "avatar" }, [
@@ -38688,293 +39066,78 @@ var render = function () {
         "col-xl-9 col-lg-7 col-md-7 col-sm-0 p-0 d-flex flex-column h-100",
     },
     [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "messages flex-fill d-flex flex-column hidden-scrollbar p-3",
-        },
-        [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("message-component"),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm._m(6),
-    ]
-  )
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "header border-bottom p-2 px-3 bg-white" },
-      [
+      _c("div", { staticClass: "header border-bottom p-2 px-3 bg-white" }, [
         _c("div", { staticClass: "d-flex align-items-center" }, [
           _c("img", {
             staticClass: "img-fluid header-avatar mr-2 border",
             attrs: {
               width: "45",
               height: "45",
-              src: "https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg",
+              src: _vm._.get(_vm.conversation, "participants.[0].user.avatar"),
               alt: "",
             },
           }),
           _vm._v(" "),
           _c("div", { staticClass: "header-box flex-fill" }, [
-            _c("p", { staticClass: "header-name mb-0" }, [
-              _vm._v("Lawrence Collins"),
-            ]),
+            _c("p", {
+              staticClass: "header-name mb-0",
+              domProps: {
+                textContent: _vm._s(
+                  _vm._.get(_vm.conversation, "participants.[0].user.name")
+                ),
+              },
+            }),
             _vm._v(" "),
             _c("small", { staticClass: "text-secondary" }, [
               _vm._v("Is online"),
             ]),
           ]),
         ]),
-      ]
-    )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "message__item" }, [
-      _c("div", { staticClass: "message__item-float d-flex" }, [
-        _c("div", { staticClass: "avatar" }, [
-          _c("img", {
-            staticClass: "img-fluid header-avatar mr-2 border",
-            attrs: {
-              width: "40",
-              height: "40",
-              src: "https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg",
-              alt: "",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "header-box flex-fill side-bar__item-content" },
-          [
-            _c("div", { staticClass: "message__item-content border" }, [
-              _c("div", { staticClass: "text-type p-2 bg-white px-3" }, [
-                _vm._v(
-                  "\n                            Lawrence Collins\n                        "
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass:
-                  "mb-0 mt-1 text-secondary d-inline-block text-truncate",
-              },
-              [_vm._v("Lawrence Collins, 2.38pm")]
-            ),
-          ]
-        ),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "message__item mt-3" }, [
-      _c("div", { staticClass: "message__item-float d-flex" }, [
-        _c("div", { staticClass: "avatar" }, [
-          _c("img", {
-            staticClass: "img-fluid header-avatar mr-2 border",
-            attrs: {
-              width: "40",
-              height: "40",
-              src: "https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg",
-              alt: "",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "header-box flex-fill side-bar__item-content" },
-          [
-            _c("div", { staticClass: "message__item-content border" }, [
-              _c("div", { staticClass: "text-type p-2 bg-white px-3" }, [
-                _vm._v(
-                  "\n                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex repudiandae rem exercitationem recusandae cumque sed ipsum consequuntur, odio eos sit, quae officiis vero dignissimos dolores hic animi? Dolore, error quae.\n                        "
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass:
-                  "mb-0 mt-1 text-secondary d-inline-block text-truncate",
-              },
-              [_vm._v("Lawrence Collins, 2.38pm")]
-            ),
-          ]
-        ),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "message__item sender mt-3" }, [
-      _c("div", { staticClass: "message__item-float d-flex" }, [
-        _c("div", { staticClass: "avatar" }, [
-          _c("img", {
-            staticClass: "img-fluid header-avatar mr-2 border",
-            attrs: {
-              width: "40",
-              height: "40",
-              src: "https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg",
-              alt: "",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "header-box flex-fill side-bar__item-content" },
-          [
-            _c("div", { staticClass: "message__item-content border" }, [
-              _c("div", { staticClass: "text-type p-2 bg-white px-3" }, [
-                _vm._v(
-                  "\n                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex repudiandae rem exercitationem recusandae cumque sed ipsum consequuntur, odio eos sit, quae officiis vero dignissimos dolores hic animi? Dolore, error quae.\n                        "
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass:
-                  "mb-0 mt-1 text-secondary d-inline-block text-truncate",
-              },
-              [_vm._v("Lawrence Collins, 2.38pm")]
-            ),
-          ]
-        ),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "message__item sender mt-3" }, [
-      _c("div", { staticClass: "message__item-float d-flex" }, [
-        _c("div", { staticClass: "avatar" }, [
-          _c("img", {
-            staticClass: "img-fluid header-avatar mr-2 border",
-            attrs: {
-              width: "40",
-              height: "40",
-              src: "https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg",
-              alt: "",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "header-box flex-fill side-bar__item-content" },
-          [
-            _c("div", { staticClass: "message__item-content border" }, [
-              _c("div", { staticClass: "image-type bg-white" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "w-100 h-100",
-                    attrs: {
-                      href: "https://pdp.edu.vn/wp-content/uploads/2021/05/hinh-anh-avatar-de-thuong.jpg",
-                      "data-fancybox": "",
-                    },
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "img-fluid",
-                      attrs: {
-                        src: "https://pdp.edu.vn/wp-content/uploads/2021/05/hinh-anh-avatar-de-thuong.jpg",
-                      },
-                    }),
-                  ]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "text-type p-2 bg-white px-3" }, [
-                _vm._v(
-                  "\n                            Lorem ipsum, dolor sit amet ?\n                        "
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass:
-                  "mb-0 mt-1 text-secondary d-inline-block text-truncate",
-              },
-              [_vm._v("Lawrence Collins, 2.38pm")]
-            ),
-          ]
-        ),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "message__item sender mt-2" }, [
+      _vm._v(" "),
       _c(
         "div",
         {
+          directives: [
+            {
+              name: "chat-scroll",
+              rawName: "v-chat-scroll",
+              value: {
+                always: false,
+                smooth: true,
+                scrollonremoved: true,
+                image: true,
+              },
+              expression:
+                "{always: false, smooth: true, scrollonremoved:true, image: true}",
+            },
+          ],
           staticClass:
-            "message__item-float d-flex align-items-center flex-row justify-content-end",
+            "messages flex-fill d-flex flex-column hidden-scrollbar p-3",
         },
         [
-          _c(
-            "span",
-            { staticClass: "mb-0 text-secondary d-inline-block text-truncate" },
-            [_c("i", { staticClass: "fal fa-check" }), _vm._v(" Đã xem")]
-          ),
+          _c("infinite-loading", {
+            attrs: { direction: "top" },
+            on: { infinite: _vm.infiniteHandler },
+          }),
           _vm._v(" "),
-          _c("div", { staticClass: "d-flex" }, [
-            _c("img", {
-              staticClass: "img-fluid header-avatar ml-1 border",
-              attrs: {
-                width: "20",
-                height: "20",
-                src: "https://i.pinimg.com/736x/24/3f/e4/243fe4fa4293f1cb878d9dce142785a0.jpg",
-                alt: "",
-              },
-            }),
-          ]),
-        ]
+          _vm._l(_vm.messages, function (message, index) {
+            return [
+              _c("message-component", {
+                key: index,
+                attrs: { message: message },
+              }),
+            ]
+          }),
+        ],
+        2
       ),
-    ])
-  },
+      _vm._v(" "),
+      _vm._m(0),
+    ]
+  )
+}
+var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -39118,14 +39281,15 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "message__item mt-3" }, [
+  return _c(
+    "div",
+    {
+      class: {
+        "message__item mt-3": true,
+        sender: _vm.currentUser.id == _vm._.get(_vm.message, "sender.id", -1),
+      },
+    },
+    [
       _c("div", { staticClass: "message__item-float d-flex" }, [
         _c("div", { staticClass: "avatar" }, [
           _c("img", {
@@ -39133,7 +39297,7 @@ var staticRenderFns = [
             attrs: {
               width: "40",
               height: "40",
-              src: "https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg",
+              src: _vm._.get(_vm.message, "sender.avatar", ""),
               alt: "",
             },
           }),
@@ -39144,11 +39308,12 @@ var staticRenderFns = [
           { staticClass: "header-box flex-fill side-bar__item-content" },
           [
             _c("div", { staticClass: "message__item-content border" }, [
-              _c("div", { staticClass: "text-type p-2 bg-white px-3" }, [
-                _vm._v(
-                  "\n                    Lawrence Collins\n                "
-                ),
-              ]),
+              _vm.message.message_type == "text"
+                ? _c("div", {
+                    staticClass: "text-type p-2 bg-white px-3",
+                    domProps: { textContent: _vm._s(_vm.message.message) },
+                  })
+                : _vm._e(),
             ]),
             _vm._v(" "),
             _c(
@@ -39157,14 +39322,28 @@ var staticRenderFns = [
                 staticClass:
                   "mb-0 mt-1 text-secondary d-inline-block text-truncate",
               },
-              [_vm._v("Lawrence Collins, 2.38pm")]
+              [
+                _vm._v(
+                  _vm._s(
+                    _vm.currentUser.id !=
+                      _vm._.get(_vm.message, "sender.id", -1)
+                      ? _vm._.get(_vm.message, "sender.name", "")
+                      : "You"
+                  ) +
+                    ", " +
+                    _vm._s(
+                      _vm._f("moment")(_vm.message.created_at, "from", "now")
+                    )
+                ),
+              ]
             ),
           ]
         ),
       ]),
-    ])
-  },
-]
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -58093,6 +58272,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js");
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_chat_scroll_image__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-chat-scroll-image */ "./node_modules/vue-chat-scroll-image/dist/vue-chat-scroll-image.js");
+/* harmony import */ var vue_chat_scroll_image__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_chat_scroll_image__WEBPACK_IMPORTED_MODULE_4__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -58131,6 +58312,8 @@ Vue.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vu
 Vue.use(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3___default.a, {
   /* options */
 });
+
+Vue.use(vue_chat_scroll_image__WEBPACK_IMPORTED_MODULE_4___default.a);
 var app = new Vue({
   el: '#chat',
   store: _store__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -58331,15 +58514,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DetailConversationComponent_vue_vue_type_template_id_3498ac4e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DetailConversationComponent.vue?vue&type=template&id=3498ac4e& */ "./resources/js/components/DetailConversationComponent.vue?vue&type=template&id=3498ac4e&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _DetailConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DetailConversationComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/DetailConversationComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DetailConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _DetailConversationComponent_vue_vue_type_template_id_3498ac4e___WEBPACK_IMPORTED_MODULE_0__["render"],
   _DetailConversationComponent_vue_vue_type_template_id_3498ac4e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -58353,6 +58538,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/DetailConversationComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/DetailConversationComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/DetailConversationComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./DetailConversationComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DetailConversationComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -58437,15 +58636,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MessageComponent_vue_vue_type_template_id_3f20c7be___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MessageComponent.vue?vue&type=template&id=3f20c7be& */ "./resources/js/components/MessageComponent.vue?vue&type=template&id=3f20c7be&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _MessageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MessageComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/MessageComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _MessageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _MessageComponent_vue_vue_type_template_id_3f20c7be___WEBPACK_IMPORTED_MODULE_0__["render"],
   _MessageComponent_vue_vue_type_template_id_3f20c7be___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -58459,6 +58660,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/MessageComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/MessageComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/MessageComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./MessageComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MessageComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -58642,7 +58857,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     auth: '',
     conversations: [],
-    conversationDetail: ''
+    conversationDetail: '',
+    messages: []
   },
   getters: {
     getAuth: function getAuth(state) {
@@ -58653,6 +58869,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     getConversationDetail: function getConversationDetail(state) {
       return state.conversationDetail;
+    },
+    getMessages: function getMessages(state) {
+      return state.messages;
     }
   },
   mutations: {
@@ -58664,6 +58883,10 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setConversationDetail: function setConversationDetail(state, payload) {
       state.conversationDetail = payload;
+      state.messages = [];
+    },
+    setMessages: function setMessages(state, payload) {
+      state.messages = [].concat(_toConsumableArray(payload), _toConsumableArray(state.messages));
     }
   }
 });

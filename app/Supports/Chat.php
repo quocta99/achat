@@ -257,7 +257,7 @@ class Chat {
     public function getMessages($last_id = 0, $limit = 12)
     {
         $messages = app(Message::class)
-            ->load('sender')
+            ->with('sender')
             ->orderByDesc('created_at')
             ->when($last_id != 0, function($q) use($last_id) {
                 $q->where('id', '<', $last_id);

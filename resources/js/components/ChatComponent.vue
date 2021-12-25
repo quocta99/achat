@@ -19,7 +19,7 @@
                 <p class="text-secondary mb-0">No conversation selected?</p>
             </div>
         </div>
-        <detail-conversation-component v-else />
+        <detail-conversation-component :key="_.get(selected, 'id', -1)" v-else />
     </div>
 </template>
 
@@ -35,6 +35,17 @@
         },
         async mounted() {
             this.setAuth(this.auth)
+            try {
+                const conversaionID = window.location.hash.replace('#conversation_', '')
+                if(!!conversaionID && conversaionID != undefined) {
+                    const res = await axios.get(`/chat/conversation/${conversaionID}`)
+                    if(_.get(res, 'data.data')) {
+                        this.setConversationDetail(_.get(res, 'data.data', ''))
+                    }
+                }
+            } catch (error) {
+                console.log('error', error);
+            }
         },
         computed: {
             ...mapGetters({
@@ -45,7 +56,8 @@
         methods: {
             ...mapMutations({
                 setAuth: 'setAuth',
-                setConversations: 'setConversations'
+                setConversations: 'setConversations',
+                setConversationDetail: 'setConversationDetail'
             }),
             async fetchConversations(query = {}) {
                 return await axios.get('/chat/conversation', query)

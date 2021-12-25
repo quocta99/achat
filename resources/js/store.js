@@ -7,7 +7,8 @@ const store = new Vuex.Store({
     state: {
         auth: '',
         conversations: [],
-        conversationDetail: ''
+        conversationDetail: '',
+        messages: []
     },
     getters: {
         getAuth: state => {
@@ -18,6 +19,9 @@ const store = new Vuex.Store({
         },
         getConversationDetail: state => {
             return state.conversationDetail
+        },
+        getMessages: state => {
+            return state.messages
         }
     },
     mutations: {
@@ -29,6 +33,10 @@ const store = new Vuex.Store({
         },
         setConversationDetail(state, payload) {
             state.conversationDetail = payload
+            state.messages = []
+        },
+        setMessages(state, payload) {
+            state.messages = [...payload,...state.messages]
         },
     }
 })
