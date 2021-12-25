@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Supports\Chatify;
+namespace App\Supports;
 
 use App\Models\Conversation;
 use App\Models\Message;
@@ -181,8 +181,8 @@ class Chat {
                     ->where('type', 'private')
                     ->whereExists(function($q) {
                         $q->select(DB::raw(1))
-                            ->from(DB::raw('chatify_participants as m2'))
-                            ->whereColumn('m2.conversation_id', 'chatify_participants.conversation_id')
+                            ->from(DB::raw('participants as m2'))
+                            ->whereColumn('m2.conversation_id', 'participants.conversation_id')
                             ->where('m2.user_id', auth()->id())
                             ->where('type', 'private');
                     });
@@ -259,11 +259,11 @@ class Chat {
     {
         $conversations = app(Conversation::class)
             ->with('lastMessage', 'lastMessage.sender')
-            ->join(DB::raw('(SELECT MAX(id), MAX(created_at) as last_message_created_at, conversation_id FROM chatify_messages GROUP BY conversation_id) msg_max'), function($join) {
-                $join->on('msg_max.conversation_id', '=', 'chatify_conversations.id');
+            ->join(DB::raw('(SELECT MAX(id), MAX(created_at) as last_message_created_at, conversation_id FROM messages GROUP BY conversation_id) msg_max'), function($join) {
+                $join->on('msg_max.conversation_id', '=', 'conversations.id');
             })
             ->whereHas('participants', function($q) {
-                $q->where('chatify_participants.user_id', auth()->id());
+                $q->where('participants.user_id', auth()->id());
             })
             ->orderByDesc('last_message_created_at')
             ->when($last_id != 0, function($q) use($last_id) {
