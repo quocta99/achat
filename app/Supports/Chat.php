@@ -2,9 +2,11 @@
 
 namespace App\Supports;
 
+use App\Events\MessageEvent;
 use App\Models\Conversation;
 use App\Models\Message;
 use Exception;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\DB;
 
 class Chat {
@@ -245,7 +247,14 @@ class Chat {
             'parent_id' => $parent
         ]);
 
-        return $message->load('sender');
+        $message = $message->load([
+            'sender',
+            'conversation.participants'
+        ]);
+
+        broadcast(new MessageEvent($message))->toOthers();
+
+        return $message;
     }
 
     /**

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations} from 'vuex'
+    import {mapActions, mapGetters, mapMutations} from 'vuex'
 
     export default {
         props: ['auth'],
@@ -33,13 +33,18 @@
                 last_conversation_id: null
             }
         },
+        created() {
+            Echo.private(`message-event.${this.auth.id}`)
+                .listen('MessageEvent', ({message, payload}) => {
+                    if(!!this.selected && this.selected.id == payload.conversation_id) {
+                        this.pushNewMessage(payload)
+                        this.pushMessageToConversations({conversation: this.selected, payload})
+                    }else {
+                        this.pushMessageToConversations({conversation: payload.conversation, payload})
+                    }
+                });
+        },
         async mounted() {
-            // this.$swal.fire({
-            //     title: 'Error!',
-            //     text: 'Do you want to continue',
-            //     icon: 'error',
-            //     confirmButtonText: 'Cool'
-            // })
             this.setAuth(this.auth)
             try {
                 const conversaionID = window.location.hash.replace('#conversation_', '')
@@ -63,7 +68,11 @@
             ...mapMutations({
                 setAuth: 'setAuth',
                 setConversations: 'setConversations',
-                setConversationDetail: 'setConversationDetail'
+                setConversationDetail: 'setConversationDetail',
+                pushNewMessage: 'pushNewMessage',
+            }),
+            ...mapActions({
+                pushMessageToConversations: 'pushMessageToConversations'
             }),
             async fetchConversations(query = {}) {
                 return await axios.get('/chat/conversation', query)

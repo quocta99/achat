@@ -22,6 +22,16 @@ class Message extends Model
     }
 
     /**
+     * Conversation function
+     *
+     * @return BelongsTo
+     */
+    public function conversation(): BelongsTo
+    {
+        return $this->belongsTo(Conversation::class, 'conversation_id', 'id');
+    }
+
+    /**
      * Message attachment attribute function
      *
      * @param [type] $value
