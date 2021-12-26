@@ -2389,18 +2389,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       formData: {
         message: '',
-        type: 'text'
+        type: 'text',
+        image_review: '',
+        file: ''
       }
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.setOriginalData();
+    var textarea = this.$refs.input;
+    textarea.addEventListener("keyup", function () {
+      textarea.style.height = _this.calcHeight(textarea.value) + "px";
+    });
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     conversation: 'getConversationDetail'
@@ -2411,34 +2428,50 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     pushMessageToConversations: 'pushMessageToConversations'
   })), {}, {
     handleSend: function handleSend() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response, message;
+        var payload, response, message;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.post("/chat/conversation/".concat(_this.conversation.id, "/message/send"), _objectSpread({}, _this.formData));
+                if (_this2.formData.message) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
 
               case 2:
+                payload = new FormData();
+                payload.append('message', _this2.formData.message);
+                payload.append('type', _this2.formData.type);
+
+                if (_this2.formData.type != 'text') {
+                  payload.append('file', _this2.$refs.image.files[0]);
+                }
+
+                _context.next = 8;
+                return axios.post("/chat/conversation/".concat(_this2.conversation.id, "/message/send"), payload);
+
+              case 8:
                 response = _context.sent;
 
-                _this.setOriginalData();
+                _this2.setOriginalData();
 
                 message = _.get(response, 'data.data', null);
 
                 if (!!message) {
-                  _this.pushNewMessage(message);
+                  _this2.pushNewMessage(message);
 
-                  _this.pushMessageToConversations({
-                    conversation: _this.conversation,
+                  _this2.pushMessageToConversations({
+                    conversation: _this2.conversation,
                     message: message
                   });
                 }
 
-              case 6:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -2446,12 +2479,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee);
       }))();
     },
+    calcHeight: function calcHeight(value) {
+      var numberOfLineBreaks = (value.match(/\n/g) || []).length; // min-height + lines x line-height + padding + border
+
+      var newHeight = 23 + numberOfLineBreaks * 23 + 12 + 2;
+      return newHeight;
+    },
     setOriginalData: function setOriginalData() {
       this.formData = {
         message: '',
         type: 'text'
       };
       this.$refs.input.focus();
+    },
+    handleChooseImage: function handleChooseImage() {
+      var _this3 = this;
+
+      var image = this.$refs.image.files[0];
+      var extention = image.type.split('/').pop().toLowerCase();
+
+      if (extention != "jpeg" && extention != "jpg" && extention != "png" && extention != "bmp" && extention != "gif") {
+        this.$refs.image.value = "";
+        return false;
+      }
+
+      var reader = new FileReader();
+
+      reader.onload = function () {
+        _this3.formData = _objectSpread(_objectSpread({}, _this3.formData), {}, {
+          image_review: reader.result,
+          file: image,
+          type: 'image'
+        });
+
+        _this3.$refs.input.focus();
+
+        _this3.$refs.input.value = _this3.$refs.input.value;
+      };
+
+      reader.readAsDataURL(image);
+    },
+    handleRemoveImage: function handleRemoveImage() {
+      this.formData = _objectSpread(_objectSpread({}, this.formData), {}, {
+        image_review: '',
+        file: '',
+        type: 'text'
+      });
     }
   })
 });
@@ -2467,6 +2540,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -49516,14 +49594,58 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "d-flex align-items-center p-2 border-top bg-white" },
-    [
-      _c("div", { staticClass: "input-group search" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("input", {
+  return _c("div", { staticClass: "p-2 border-top bg-white" }, [
+    _c(
+      "div",
+      { class: { "mb-2": true, "d-none": !_vm.formData.image_review } },
+      [
+        _c("div", { staticClass: "image-review" }, [
+          _c("div", { staticClass: "image-review__box" }, [
+            _c("i", {
+              staticClass: "fal fa-times-circle",
+              on: { click: _vm.handleRemoveImage },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "img-thumbnail img-fluid height-auto",
+            attrs: {
+              src: _vm.formData.image_review,
+              accept: "image/png,image/jpeg,image/bmp,image/gif",
+              width: "200",
+              alt: "...",
+            },
+          }),
+        ]),
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c(
+        "span",
+        {
+          staticClass: "input-group-text new-chat",
+          staticStyle: { cursor: "pointer" },
+          on: {
+            click: function ($event) {
+              return _vm.$refs.image.click()
+            },
+          },
+        },
+        [
+          _c("i", { staticClass: "fal fa-images" }),
+          _vm._v(" "),
+          _c("input", {
+            ref: "image",
+            staticClass: "d-none",
+            attrs: { type: "file", name: "" },
+            on: { change: _vm.handleChooseImage },
+          }),
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group search form-send-message" }, [
+        _c("textarea", {
           directives: [
             {
               name: "model",
@@ -49534,13 +49656,21 @@ var render = function () {
           ],
           ref: "input",
           staticClass: "form-control",
-          attrs: { type: "text", placeholder: "Typing..." },
+          attrs: { type: "text", placeholder: "Typing...", rows: "1" },
           domProps: { value: _vm.formData.message },
           on: {
             keyup: function ($event) {
               if (
                 !$event.type.indexOf("key") &&
                 _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              if (
+                $event.ctrlKey ||
+                $event.shiftKey ||
+                $event.altKey ||
+                $event.metaKey
               ) {
                 return null
               }
@@ -49564,21 +49694,10 @@ var render = function () {
         },
         [_c("i", { staticClass: "fal fa-paper-plane" })]
       ),
-    ]
-  )
+    ]),
+  ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fal fa-images" }),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -49721,7 +49840,44 @@ var render = function () {
           { staticClass: "header-box flex-fill side-bar__item-content" },
           [
             _c("div", { staticClass: "message__item-content border" }, [
-              _vm.message.message_type == "text"
+              _vm.message.message_type == "image"
+                ? _c("div", { staticClass: "image-type bg-white" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "w-100 h-100",
+                        attrs: {
+                          href:
+                            "storage" +
+                            _vm._.get(
+                              _vm.message,
+                              "message_attachment." +
+                                _vm.message.message_type +
+                                ".path"
+                            ),
+                          "data-fancybox": "",
+                        },
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "img-fluid",
+                          attrs: {
+                            src:
+                              "storage" +
+                              _vm._.get(
+                                _vm.message,
+                                "message_attachment." +
+                                  _vm.message.message_type +
+                                  ".path"
+                              ),
+                          },
+                        }),
+                      ]
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              !!_vm.message.message
                 ? _c("div", {
                     staticClass: "text-type p-2 bg-white px-3",
                     domProps: { textContent: _vm._s(_vm.message.message) },

@@ -99,6 +99,9 @@
         overflow: auto;
     }
     .message__item {
+        .text-type {
+            white-space: break-spaces;
+        }
         &.sender {
             .message__item-float {
                 float: right;
@@ -139,5 +142,47 @@
         max-height: 50vh;
         overflow: auto;
         border-radius: 0.5rem;
+    }
+    .form-send-message textarea {
+        border-radius: unset !important;
+        border: unset;
+        resize: none;
+        &:focus {
+            outline: none;
+            box-shadow: unset;
+        }
+    }
+    .image-review {
+        position: relative;
+        width: max-content;
+        &:hover {
+            .image-review__box {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        &__box {
+            position: absolute;
+            top: 0.25rem;
+            left: 0.25rem;
+            right: 0.25rem;
+            bottom: 0.25rem;
+            z-index: 10;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background-color: #40464c59;
+
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .2s ease-in-out;
+            i {
+                font-size: 25px;
+                cursor: pointer;
+                color: white;
+            }
+        }
     }
 }

@@ -9,7 +9,12 @@
             </div>
             <div class="header-box flex-fill side-bar__item-content">
                 <div class="message__item-content border">
-                    <div class="text-type p-2 bg-white px-3" v-if="message.message_type == 'text'" v-text="message.message"></div>
+                    <div class="image-type bg-white" v-if="message.message_type == 'image'">
+                        <a :href="'storage' + _.get(message, `message_attachment.${message.message_type}.path`)" class="w-100 h-100" data-fancybox>
+                            <img :src="'storage' + _.get(message, `message_attachment.${message.message_type}.path`)" class="img-fluid" />
+                        </a>
+                    </div>
+                    <div class="text-type p-2 bg-white px-3" v-if="!!message.message" v-text="message.message"></div>
                 </div>
                 <span class="mb-0 mt-1 text-secondary d-inline-block text-truncate">{{ currentUser.id !=  _.get(message, 'sender.id', -1) ? _.get(message, 'sender.name', '') : 'You' }}, {{ message.created_at | moment("from", "now") }}</span>
             </div>
