@@ -1980,12 +1980,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         _this.pushMessageToConversations({
           conversation: _this.selected,
-          payload: payload
+          message: payload
         });
       } else {
         _this.pushMessageToConversations({
           conversation: payload.conversation,
-          payload: payload
+          message: payload
         });
       }
     });

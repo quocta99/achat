@@ -38,9 +38,15 @@
                 .listen('MessageEvent', ({message, payload}) => {
                     if(!!this.selected && this.selected.id == payload.conversation_id) {
                         this.pushNewMessage(payload)
-                        this.pushMessageToConversations({conversation: this.selected, payload})
+                        this.pushMessageToConversations({
+                            conversation: this.selected,
+                            message: payload
+                        })
                     }else {
-                        this.pushMessageToConversations({conversation: payload.conversation, payload})
+                        this.pushMessageToConversations({
+                            conversation: payload.conversation, 
+                            message: payload
+                        })
                     }
                 });
         },
