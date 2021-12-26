@@ -16,98 +16,63 @@
                                     <i class="fal fa-search text-secondary"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Search chat" />
+                            <input type="text" v-model="keyword" class="form-control" placeholder="Search chat" />
                         </div>
-                        <button class="btn btn-primary ml-2 new-chat" data-toggle="modal" data-target="#createNewChat">
+                        <button @click="handleCreateConversation" class="btn btn-primary ml-2 new-chat" data-toggle="modal" data-target="#createNewChat">
                             <i class="fal fa-paper-plane"></i>
                         </button>
                     </div>
                     <div class="list-user mt-3 border">
-                        <user-component />
-                        <div class="side-bar__item d-flex align-items-center p-2">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="side-bar__item d-flex align-items-center p-2 active">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="side-bar__item d-flex align-items-center p-2">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="side-bar__item d-flex align-items-center p-2">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="side-bar__item d-flex align-items-center p-2">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="side-bar__item d-flex align-items-center p-2">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="side-bar__item d-flex align-items-center p-2">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="side-bar__item d-flex align-items-center p-2">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="side-bar__item d-flex align-items-center p-2">
-                            <div class="avatar">
-                                <img width="45" height="45" src="https://hinhnen123.com/wp-content/uploads/2021/06/hinh-anh-avatar-dep-nhat-6.jpg" class="img-fluid header-avatar mr-2 border" alt="" />
-                            </div>
-                            <div class="header-box flex-fill side-bar__item-content">
-                                <p class="header-name mb-0 d-inline-block text-truncate">Lawrence Collins</p>
-                                <span class="mb-0 text-secondary d-inline-block text-truncate">lawrece@gmail.com</span>
-                            </div>
-                        </div>
+                        <template v-for="(user, index) in users">
+                            <user-component @select="handleSelected" :key="index" :user="user" :selected="selected" />
+                        </template>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import { mapMutations } from 'vuex'
+export default {
+    data() {
+        return {
+            users: [],
+            keyword: '',
+            selected: []
+        }
+    },
+    async mounted() {
+        await this.fetchUsers()
+    },
+    methods: {
+        ...mapMutations({
+            pushFirstConversation: 'pushFirstConversation'
+        }),
+        async fetchUsers(keyword = null) {
+            const response = await axios.get('/chat/user', {
+                params: {keyword}
+            })
+
+            this.users = _.get(response, 'data.data', [])
+        },
+        handleSelected(user) {
+            this.selected = [user.id]
+        },
+        async handleCreateConversation() {
+            const response = await axios.post('/chat/conversation/create', {
+                participants: this.selected,
+                setting: []
+            })
+
+            this.pushFirstConversation(_.get(response, 'data.data', null))
+        }
+    },
+    watch: {
+        keyword: _.debounce(async function(to, from) {
+            await this.fetchUsers(to)
+        }, 500)
+    }
+}
+</script>

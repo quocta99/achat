@@ -38,6 +38,23 @@ const store = new Vuex.Store({
         setMessages(state, payload) {
             state.messages = [...payload,...state.messages]
         },
+        pushFirstConversation(state, payload) {
+            const index = state.conversations.findIndex(el => el.id == payload.id)
+            if(index == -1) {
+                state.conversations = [payload, ...state.conversations]
+            }else{
+                state.conversations = [
+                    state.conversations[index],
+                    ...state.conversations.slice(0, index),
+                    ...state.conversations.slice(index + 1)
+                ]
+            }
+        },
+        pushNewMessage(state, payload) {
+            if(!!payload) {
+                state.messages = [...state.messages, payload]
+            }
+        }
     }
 })
 

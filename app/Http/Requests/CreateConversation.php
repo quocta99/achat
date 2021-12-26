@@ -26,7 +26,7 @@ class CreateConversation extends FormRequest
         return [
             'participants' => 'required|array',
             'participants.*' => 'required|numeric',
-            'setting' => 'required|array'
+            'setting' => 'nullable|array'
         ];
     }
 }

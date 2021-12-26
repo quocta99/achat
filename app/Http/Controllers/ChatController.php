@@ -39,8 +39,12 @@ class ChatController extends Controller
     public function getUsers()
     {
         $users = app(User::class)
-            ->where('name', 'like', "%" . request('keyword', '') . '%')
-            ->orWhere('email', 'like', "%" . request('keyword', '') . '%')
+            ->where(function($q) {
+                $q
+                ->where('name', 'like', "%" . request('keyword', '') . '%')
+                ->orWhere('email', 'like', "%" . request('keyword', '') . '%');
+            })
+            ->where('id', '!=', auth()->id())
             ->take(20)
             ->get();
 
@@ -112,7 +116,7 @@ class ChatController extends Controller
      *
      * @return void
      */
-    public function sendMessage(SendMessage $request)
+    public function sendMessage(SendMessage $request, Conversation $conversation)
     {
         if($request->file('file')) {
             $file = $request->file('file');
@@ -135,7 +139,8 @@ class ChatController extends Controller
             ]);
         }
 
-        $message = Chat::send($request->message, $request->type ?: 'text', $request->attachment ?: [], $request->parent);
+        $message = Chat::conversation($conversation)
+            ->send($request->message, $request->type ?: 'text', $request->attachment ?: [], $request->parent);
 
         return response()->json([
             "data" => $message

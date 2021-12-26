@@ -30,7 +30,7 @@ class ChatSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        for ($i=0; $i < 100; $i++) { 
+        for ($i=0; $i < 99; $i++) { 
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->email,
@@ -39,32 +39,32 @@ class ChatSeeder extends Seeder
             ]);
         }
 
-        Auth::loginUsingId(1);
+        // Auth::loginUsingId(1);
 
-        $users = User::orderByRaw("RAND()")
-            ->where('id', '!=', auth()->id())
-            ->limit(100)
-            ->get();
+        // $users = User::orderByRaw("RAND()")
+        //     ->where('id', '!=', auth()->id())
+        //     ->limit(100)
+        //     ->get();
 
-        foreach ($users as $key => $value) {
-            $conversation = Chat::createConversation($value->id)
-                ->getConversation();
+        // foreach ($users as $key => $value) {
+        //     $conversation = Chat::createConversation($value->id)
+        //         ->getConversation();
 
-            $ps = Chat::conversation($conversation)->getParticipants();
+        //     $ps = Chat::conversation($conversation)->getParticipants();
         
-            $user = (bool)rand(0,1) ? $ps[1] : $ps[0];
+        //     $user = (bool)rand(0,1) ? $ps[1] : $ps[0];
 
-            for ($i=0; $i < $faker->numberBetween(500, 1500); $i++) { 
-                Chat::conversation($conversation)
-                    ->getConversation()
-                    ->messages()
-                    ->create([
-                        'sender_id' => $user->user_id,
-                        'participant_id' => $user->id,
-                        'message_type' => 'text',
-                        'message' => $faker->text($faker->numberBetween(20, 150))
-                    ]);
-            }
-        }
+        //     for ($i=0; $i < $faker->numberBetween(500, 1500); $i++) { 
+        //         Chat::conversation($conversation)
+        //             ->getConversation()
+        //             ->messages()
+        //             ->create([
+        //                 'sender_id' => $user->user_id,
+        //                 'participant_id' => $user->id,
+        //                 'message_type' => 'text',
+        //                 'message' => $faker->text($faker->numberBetween(20, 150))
+        //             ]);
+        //     }
+        // }
     }
 }

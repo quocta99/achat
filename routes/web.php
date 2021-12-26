@@ -23,10 +23,10 @@ Auth::routes();
 Route::group(['prefix' => 'chat'], function() {
     Route::get('', [ChatController::class, 'index'])->name('chat');
     Route::get('user', [ChatController::class, 'getUsers']);
-    Route::post('message/send', [ChatController::class, 'sendMessage']);
     Route::get('conversation', [ChatController::class, 'getConversations']);
     Route::post('conversation/create', [ChatController::class, 'createConversation']);
     Route::get('conversation/{conversation}', [ChatController::class, 'getConversationDetail']);
     Route::get('conversation/{conversation}/message', [ChatController::class, 'getMessages']);
+    Route::post('conversation/{conversation}/message/send', [ChatController::class, 'sendMessage']);
 });
 

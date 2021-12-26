@@ -232,16 +232,16 @@ class Chat {
      * @param [type] $message
      * @return void
      */
-    public function send($message, $type = 'text', $attachment = null, $parent = null)
+    public function send($message, $type = 'text', $attachment = [], $parent = null)
     {
         $participant = collect($this->getParticipants())->firstWhere('user_id', auth()->id());
-        
-        $message = $this->conversation->conversations()->create([
+
+        $message = $this->conversation->messages()->create([
             'sender_id' => auth()->id(),
             'participant_id' => $participant->id,
-            'conversation_type' => $type,
+            'message_type' => $type,
             'message' => $message,
-            'message_attachment' => $attachment,
+            'message_attachment' => json_encode($attachment),
             'parent_id' => $parent
         ]);
 
