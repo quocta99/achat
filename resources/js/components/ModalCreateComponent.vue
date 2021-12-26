@@ -48,7 +48,8 @@ export default {
     },
     methods: {
         ...mapMutations({
-            pushFirstConversation: 'pushFirstConversation'
+            pushFirstConversation: 'pushFirstConversation',
+            setConversationDetail: 'setConversationDetail'
         }),
         async fetchUsers(keyword = null) {
             const response = await axios.get('/chat/user', {
@@ -66,7 +67,12 @@ export default {
                 setting: []
             })
 
-            this.pushFirstConversation(_.get(response, 'data.data', null))
+            const conversation = _.get(response, 'data.data', null)
+            if(!!conversation) {
+                this.pushFirstConversation(conversation)
+                this.setConversationDetail(conversation)
+                window.history.pushState('', '', `#conversation_${conversation.id}`)
+            }
         }
     },
     watch: {

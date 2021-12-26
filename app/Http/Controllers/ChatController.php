@@ -75,8 +75,10 @@ class ChatController extends Controller
      */
     public function getConversationDetail(Conversation $conversation)
     {
+        $conversation = Chat::conversation($conversation)->getConversation();
+
         return response()->json([
-            'data' => Chat::conversation($conversation)->getConversation()
+            'data' => $conversation ? ($conversation->lastMessage ? $conversation : null) : null
         ]);
     }
 

@@ -13,7 +13,7 @@
             </span>
         </div>
         <div class="time header-box ml-1">
-            <span class="time__ago mb-1">{{ conversation.last_message_created_at | moment("from", "now") }}</span>
+            <span class="time__ago mb-1">{{ _.get(conversation, 'last_message.created_at', null) | moment("from", "now") }}</span>
             <span class="badge badge-pill badge-danger" style="opacity: 0;">0</span>
         </div>
     </div>

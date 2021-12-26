@@ -9,7 +9,7 @@
                 </div>
             </div>
         </div>
-        <div class="messages flex-fill d-flex flex-column hidden-scrollbar p-3" v-chat-scroll="{always: false, smooth: true, scrollonremoved:true, image: true}">
+        <div class="messages flex-fill d-flex flex-column hidden-scrollbar p-3" v-chat-scroll="{always: true, smooth: true, scrollonremoved: true, image: true}">
             <infinite-loading direction="top" @infinite="infiniteHandler"></infinite-loading>
             <template v-for="(message, index) in messages" >
                 <message-component :key="index" :message="message" />

@@ -289,11 +289,15 @@ class Chat {
                 $q->where('participants.user_id', auth()->id());
             })
             ->orderByDesc('last_message_created_at')
-            ->when($last_id != 0, function($q) use($last_id) {
-                $q->where('id', '<', $last_id);
-            })
-            ->limit($limit)
+            // ->when($last_id != 0, function($q) use($last_id) {
+            //     $q->where('id', '<', $last_id);
+            // })
+            // ->limit($limit)
             ->get();
+
+        if($last_id) {
+            $conversations = collect();
+        }
 
         return collect()
             ->put('conversations', $conversations)

@@ -2380,14 +2380,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     conversation: 'getConversationDetail'
   })),
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
     pushNewMessage: 'pushNewMessage'
+  })), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
+    pushMessageToConversations: 'pushMessageToConversations'
   })), {}, {
     handleSend: function handleSend() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
+        var response, message;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2400,9 +2402,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _this.setOriginalData();
 
-                _this.pushNewMessage(_.get(response, 'data.data', null));
+                message = _.get(response, 'data.data', null);
 
-              case 5:
+                if (!!message) {
+                  _this.pushNewMessage(message);
+
+                  _this.pushMessageToConversations({
+                    conversation: _this.conversation,
+                    message: message
+                  });
+                }
+
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -2415,6 +2426,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         message: '',
         type: 'text'
       };
+      this.$refs.input.focus();
     }
   })
 });
@@ -2543,7 +2555,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
-    pushFirstConversation: 'pushFirstConversation'
+    pushFirstConversation: 'pushFirstConversation',
+    setConversationDetail: 'setConversationDetail'
   })), {}, {
     fetchUsers: function fetchUsers() {
       var _arguments = arguments,
@@ -2582,7 +2595,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var response;
+        var response, conversation;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -2595,10 +2608,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 response = _context3.sent;
+                conversation = _.get(response, 'data.data', null);
 
-                _this3.pushFirstConversation(_.get(response, 'data.data', null));
+                if (!!conversation) {
+                  _this3.pushFirstConversation(conversation);
 
-              case 4:
+                  _this3.setConversationDetail(conversation);
+
+                  window.history.pushState('', '', "#conversation_".concat(conversation.id));
+                }
+
+              case 5:
               case "end":
                 return _context3.stop();
             }
@@ -39310,7 +39330,7 @@ var render = function () {
           _vm._v(
             _vm._s(
               _vm._f("moment")(
-                _vm.conversation.last_message_created_at,
+                _vm._.get(_vm.conversation, "last_message.created_at", null),
                 "from",
                 "now"
               )
@@ -39396,13 +39416,13 @@ var render = function () {
               name: "chat-scroll",
               rawName: "v-chat-scroll",
               value: {
-                always: false,
+                always: true,
                 smooth: true,
                 scrollonremoved: true,
                 image: true,
               },
               expression:
-                "{always: false, smooth: true, scrollonremoved:true, image: true}",
+                "{always: true, smooth: true, scrollonremoved: true, image: true}",
             },
           ],
           staticClass:
@@ -39469,6 +39489,7 @@ var render = function () {
               expression: "formData.message",
             },
           ],
+          ref: "input",
           staticClass: "form-control",
           attrs: { type: "text", placeholder: "Typing..." },
           domProps: { value: _vm.formData.message },
@@ -58929,6 +58950,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -58987,13 +59014,33 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       if (index == -1) {
         state.conversations = [payload].concat(_toConsumableArray(state.conversations));
       } else {
-        state.conversations = [state.conversations[index]].concat(_toConsumableArray(state.conversations.slice(0, index)), _toConsumableArray(state.conversations.slice(index + 1)));
+        state.conversations = [payload].concat(_toConsumableArray(state.conversations.slice(0, index)), _toConsumableArray(state.conversations.slice(index + 1)));
       }
     },
     pushNewMessage: function pushNewMessage(state, payload) {
       if (!!payload) {
         state.messages = [].concat(_toConsumableArray(state.messages), [payload]);
       }
+    }
+  },
+  actions: {
+    pushMessageToConversations: function pushMessageToConversations(_ref, _ref2) {
+      var dispatch = _ref.dispatch,
+          commit = _ref.commit,
+          state = _ref.state;
+      var conversation = _ref2.conversation,
+          message = _ref2.message;
+      var index = state.conversations.findIndex(function (el) {
+        return el.id == conversation.id;
+      });
+
+      if (index != -1) {
+        conversation = state.conversations[index];
+      }
+
+      commit("pushFirstConversation", _objectSpread(_objectSpread({}, conversation), {}, {
+        last_message: message
+      }));
     }
   }
 });

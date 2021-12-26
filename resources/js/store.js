@@ -44,7 +44,7 @@ const store = new Vuex.Store({
                 state.conversations = [payload, ...state.conversations]
             }else{
                 state.conversations = [
-                    state.conversations[index],
+                    payload,
                     ...state.conversations.slice(0, index),
                     ...state.conversations.slice(index + 1)
                 ]
@@ -55,6 +55,18 @@ const store = new Vuex.Store({
                 state.messages = [...state.messages, payload]
             }
         }
+    },
+    actions: {
+        pushMessageToConversations({dispatch, commit, state}, {conversation, message}) {
+            const index = state.conversations.findIndex(el => el.id == conversation.id)
+            if(index != -1) {
+                conversation = state.conversations[index]
+            }
+            commit("pushFirstConversation", {
+                ...conversation,
+                last_message: message
+            })
+        } 
     }
 })
 
