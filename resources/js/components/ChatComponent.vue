@@ -34,6 +34,12 @@
             }
         },
         async mounted() {
+            // this.$swal.fire({
+            //     title: 'Error!',
+            //     text: 'Do you want to continue',
+            //     icon: 'error',
+            //     confirmButtonText: 'Cool'
+            // })
             this.setAuth(this.auth)
             try {
                 const conversaionID = window.location.hash.replace('#conversation_', '')

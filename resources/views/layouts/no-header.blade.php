@@ -28,5 +28,7 @@
     <script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @stack('scripts')
 </body>
 </html>
