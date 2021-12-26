@@ -5,8 +5,9 @@ namespace App\Supports;
 use App\Events\MessageEvent;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\User;
 use Exception;
-use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Chat {
@@ -34,8 +35,9 @@ class Chat {
                 $q->where('user_id', '!=', auth()->id());
             },
             'participants.user',
-            'lastMessage', 
-            'lastMessage.sender'
+            'lastMessage',
+            'lastMessage.sender',
+            'unread'
         ];
     }
 
@@ -249,8 +251,11 @@ class Chat {
 
         $message = $message->load([
             'sender',
+            'readed',
             'conversation.participants'
         ]);
+
+        $this->readMessage($message->id, Auth::id());
 
         broadcast(new MessageEvent($message))->toOthers();
 
@@ -266,7 +271,10 @@ class Chat {
     public function getMessages($last_id = 0, $limit = 12)
     {
         $messages = app(Message::class)
-            ->with('sender')
+            ->with([
+                'sender',
+                'readed',
+            ])
             ->orderByDesc('created_at')
             ->when($last_id != 0, function($q) use($last_id) {
                 $q->where('id', '<', $last_id);
@@ -291,6 +299,13 @@ class Chat {
     {
         $conversations = app(Conversation::class)
             ->with($this->conversationWith)
+            // ->withCount([
+            //     'messages as unread' => function($q) {
+            //         return $q
+            //             ->leftJoin('readed_messages', 'messages.id', '=', DB::raw('readed_messages.message_id AND readed_messages.user_id = ' . Auth::id()))
+            //             ->whereNull('readed_messages.user_id');
+            //     }
+            // ])
             ->join(DB::raw('(SELECT MAX(id), MAX(created_at) as last_message_created_at, conversation_id FROM messages GROUP BY conversation_id) msg_max'), function($join) {
                 $join->on('msg_max.conversation_id', '=', 'conversations.id');
             })
@@ -311,5 +326,21 @@ class Chat {
         return collect()
             ->put('conversations', $conversations)
             ->put('last_conversation_id', $conversations->last()->id ?? null);
+    }
+
+    /**
+     * Read message function
+     *
+     * @param [type] $message
+     * @param [type] $user
+     * @return void
+     */
+    public function readMessage($message, $user)
+    {
+        if(!is_array($message)) {
+            $message = [$message];
+        }
+
+        User::find($user)->readed()->attach($message);
     }
 }

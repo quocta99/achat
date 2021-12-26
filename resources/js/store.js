@@ -54,6 +54,35 @@ const store = new Vuex.Store({
                 ]
             }
         },
+        readedConversation(state, payload) {
+            const index = state.conversations.findIndex(el => el.id == payload)
+            if(index != -1) {
+                state.conversations = [
+                    ...state.conversations.slice(0, index),
+                    {
+                        ...state.conversations[index],
+                        unread: []
+                    },
+                    ...state.conversations.slice(index + 1)
+                ]
+            }
+        },
+        pushUnReadConversation(state, {conversation, message}) {
+            const index = state.conversations.findIndex(el => el.id == conversation)
+            if(index != -1) {
+                state.conversations = [
+                    ...state.conversations.slice(0, index),
+                    {
+                        ...state.conversations[index],
+                        unread: [
+                            ...state.conversations[index].unread,
+                            message
+                        ]
+                    },
+                    ...state.conversations.slice(index + 1)
+                ]
+            }
+        },
         pushNewMessage(state, payload) {
             if(!!payload) {
                 state.messages = [...state.messages, payload]
@@ -73,7 +102,16 @@ const store = new Vuex.Store({
                 ...conversation,
                 last_message: message
             })
-        } 
+        },
+        async readMessage({dispatch, commit, state}, conversation) {
+            const res = await axios.post(`/chat/conversation/${conversation}/message/read`, {
+                user_id: state.auth.id
+            })
+
+            if(res.status == 200) {
+                commit("readedConversation", conversation)
+            }
+        }
     }
 })
 

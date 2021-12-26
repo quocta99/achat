@@ -28,5 +28,6 @@ Route::group(['prefix' => 'chat'], function() {
     Route::get('conversation/{conversation}', [ChatController::class, 'getConversationDetail']);
     Route::get('conversation/{conversation}/message', [ChatController::class, 'getMessages']);
     Route::post('conversation/{conversation}/message/send', [ChatController::class, 'sendMessage']);
+    Route::post('conversation/{conversation}/message/read', [ChatController::class, 'readMessage']);
 });
 

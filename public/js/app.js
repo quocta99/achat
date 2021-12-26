@@ -1994,10 +1994,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           conversation: _this.selected,
           message: payload
         });
+
+        _this.readMessage();
       } else {
         _this.pushMessageToConversations({
           conversation: payload.conversation,
           message: payload
+        });
+
+        _this.pushUnReadConversation({
+          conversation: payload.conversation_id,
+          message: payload.id
         });
       }
     });
@@ -2074,9 +2081,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     setConversations: 'setConversations',
     setConversationDetail: 'setConversationDetail',
     pushNewMessage: 'pushNewMessage',
-    setUserOnline: 'setUserOnline'
+    setUserOnline: 'setUserOnline',
+    pushUnReadConversation: 'pushUnReadConversation'
   })), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
-    pushMessageToConversations: 'pushMessageToConversations'
+    pushMessageToConversations: 'pushMessageToConversations',
+    readMessage: 'readMessage'
   })), {}, {
     fetchConversations: function fetchConversations() {
       var _arguments = arguments;
@@ -2224,17 +2233,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 //
 //
@@ -2272,7 +2281,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   mounted: function mounted() {
-    this.last_message_id = null;
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.last_message_id = null;
+              _context.next = 3;
+              return _this.readMessage(_this.conversation.id);
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     conversation: 'getConversationDetail',
@@ -2285,32 +2311,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return ids.indexOf(_.get(this.conversation, 'participants.[0].user.id')) != -1;
     }
   }),
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
     setMessages: 'setMessages'
+  })), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
+    readMessage: 'readMessage'
   })), {}, {
     infiniteHandler: function infiniteHandler($state) {
-      var _this = this;
+      var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.next = 2;
-                return axios.get("/chat/conversation/".concat(_this.conversation.id, "/message"), _this.last_message_id ? {
+                _context2.next = 2;
+                return axios.get("/chat/conversation/".concat(_this2.conversation.id, "/message"), _this2.last_message_id ? {
                   params: {
-                    last_message_id: _this.last_message_id
+                    last_message_id: _this2.last_message_id
                   }
                 } : {});
 
               case 2:
-                res = _context.sent;
+                res = _context2.sent;
 
                 if (!!res.data) {
-                  _this.setMessages(_.get(res, 'data.data.messages', []));
+                  _this2.setMessages(_.get(res, 'data.data.messages', []));
 
-                  _this.last_message_id = _.get(res, 'data.data.last_message_id', null);
+                  _this2.last_message_id = _.get(res, 'data.data.last_message_id', null);
                 }
 
                 $state.loaded();
@@ -2321,10 +2349,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 6:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     }
   })
@@ -49444,14 +49472,11 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _c(
-          "span",
-          {
-            staticClass: "badge badge-pill badge-danger",
-            staticStyle: { opacity: "0" },
-          },
-          [_vm._v("0")]
-        ),
+        _c("span", {
+          staticClass: "badge badge-pill badge-danger",
+          style: _vm.conversation.unread == 0 ? "opacity: 0;" : "",
+          domProps: { textContent: _vm._s(_vm.conversation.unread.length) },
+        }),
       ]),
     ]
   )
@@ -69184,9 +69209,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -69207,8 +69240,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
   state: {
     auth: '',
     conversations: [],
@@ -69258,6 +69291,30 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         state.conversations = [payload].concat(_toConsumableArray(state.conversations.slice(0, index)), _toConsumableArray(state.conversations.slice(index + 1)));
       }
     },
+    readedConversation: function readedConversation(state, payload) {
+      var index = state.conversations.findIndex(function (el) {
+        return el.id == payload;
+      });
+
+      if (index != -1) {
+        state.conversations = [].concat(_toConsumableArray(state.conversations.slice(0, index)), [_objectSpread(_objectSpread({}, state.conversations[index]), {}, {
+          unread: []
+        })], _toConsumableArray(state.conversations.slice(index + 1)));
+      }
+    },
+    pushUnReadConversation: function pushUnReadConversation(state, _ref) {
+      var conversation = _ref.conversation,
+          message = _ref.message;
+      var index = state.conversations.findIndex(function (el) {
+        return el.id == conversation;
+      });
+
+      if (index != -1) {
+        state.conversations = [].concat(_toConsumableArray(state.conversations.slice(0, index)), [_objectSpread(_objectSpread({}, state.conversations[index]), {}, {
+          unread: [].concat(_toConsumableArray(state.conversations[index].unread), [message])
+        })], _toConsumableArray(state.conversations.slice(index + 1)));
+      }
+    },
     pushNewMessage: function pushNewMessage(state, payload) {
       if (!!payload) {
         state.messages = [].concat(_toConsumableArray(state.messages), [payload]);
@@ -69268,12 +69325,12 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     }
   },
   actions: {
-    pushMessageToConversations: function pushMessageToConversations(_ref, _ref2) {
-      var dispatch = _ref.dispatch,
-          commit = _ref.commit,
-          state = _ref.state;
-      var conversation = _ref2.conversation,
-          message = _ref2.message;
+    pushMessageToConversations: function pushMessageToConversations(_ref2, _ref3) {
+      var dispatch = _ref2.dispatch,
+          commit = _ref2.commit,
+          state = _ref2.state;
+      var conversation = _ref3.conversation,
+          message = _ref3.message;
       var index = state.conversations.findIndex(function (el) {
         return el.id == conversation.id;
       });
@@ -69285,6 +69342,34 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       commit("pushFirstConversation", _objectSpread(_objectSpread({}, conversation), {}, {
         last_message: message
       }));
+    },
+    readMessage: function readMessage(_ref4, conversation) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var dispatch, commit, state, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                dispatch = _ref4.dispatch, commit = _ref4.commit, state = _ref4.state;
+                _context.next = 3;
+                return axios.post("/chat/conversation/".concat(conversation, "/message/read"), {
+                  user_id: state.auth.id
+                });
+
+              case 3:
+                res = _context.sent;
+
+                if (res.status == 200) {
+                  commit("readedConversation", conversation);
+                }
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }
 });

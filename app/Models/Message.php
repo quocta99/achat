@@ -41,4 +41,14 @@ class Message extends Model
     {
         return !blank($value) ? json_decode($value, true) ?? [] : [];
     }
+
+    /**
+     * Readed function
+     *
+     * @return void
+     */
+    public function readed()
+    {
+        return $this->belongsToMany(User::class, 'readed_messages');
+    }
 }

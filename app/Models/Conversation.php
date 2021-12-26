@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Conversation extends Model
 {
@@ -29,6 +31,18 @@ class Conversation extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
+    }
+    
+    /**
+     * Messages function
+     *
+     * @return HasMany
+     */
+    public function unread(): HasMany
+    {
+        return $this->hasMany(Message::class)
+            ->leftJoin('readed_messages', 'messages.id', '=', DB::raw('readed_messages.message_id AND readed_messages.user_id = ' . Auth::id()))
+            ->whereNull('readed_messages.user_id');
     }
 
     /**

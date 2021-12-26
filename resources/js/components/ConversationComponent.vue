@@ -15,7 +15,7 @@
         </div>
         <div class="time header-box ml-1">
             <span class="time__ago mb-1">{{ _.get(conversation, 'last_message.created_at', null) | moment("from", "now") }}</span>
-            <span class="badge badge-pill badge-danger" style="opacity: 0;">0</span>
+            <span class="badge badge-pill badge-danger" :style="conversation.unread == 0 ? 'opacity: 0;' : ''" v-text="conversation.unread.length"></span>
         </div>
     </div>
 </template>

@@ -27,15 +27,16 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
     data() {
         return {
             last_message_id: null
         }
     },
-    mounted() {
+    async mounted() {
         this.last_message_id = null
+        await this.readMessage(this.conversation.id)
     },
     computed: {
         ...mapGetters({
@@ -50,6 +51,9 @@ export default {
     methods: {
         ...mapMutations({
             setMessages: 'setMessages'
+        }),
+        ...mapActions({
+            readMessage: 'readMessage'
         }),
         async infiniteHandler($state) {
             const res = await axios.get(`/chat/conversation/${this.conversation.id}/message`, this.last_message_id ? {

@@ -6,7 +6,10 @@ use App\Facade\Chat;
 use App\Http\Requests\CreateConversation;
 use App\Http\Requests\SendMessage;
 use App\Models\Conversation;
+use App\Models\Message;
 use App\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ChatController extends Controller
@@ -146,6 +149,30 @@ class ChatController extends Controller
 
         return response()->json([
             "data" => $message
+        ]);
+    }
+
+    /**
+     * Read message function
+     *
+     * @param Conversation $conversation
+     * @param Message $message
+     * @return void
+     */
+    public function readMessage(Conversation $conversation)
+    {
+        $message = Message::select('messages.id')
+            ->whereConversationId($conversation->id)
+            ->leftJoin('readed_messages', 'messages.id', '=', DB::raw('readed_messages.message_id AND readed_messages.user_id = ' . Auth::id()))
+            ->whereNull('readed_messages.user_id')
+            ->get()
+            ->pluck('id')
+            ->toArray() ?? [];
+
+        Chat::readMessage($message, request('user_id'));
+
+        return response()->json([
+            "message" => "Readed message successfully!"
         ]);
     }
 }

@@ -42,10 +42,15 @@
                             conversation: this.selected,
                             message: payload
                         })
+                        this.readMessage()
                     }else {
                         this.pushMessageToConversations({
                             conversation: payload.conversation, 
                             message: payload
+                        })
+                        this.pushUnReadConversation({
+                            conversation: payload.conversation_id,
+                            message: payload.id
                         })
                     }
                 });
@@ -97,10 +102,12 @@
                 setConversations: 'setConversations',
                 setConversationDetail: 'setConversationDetail',
                 pushNewMessage: 'pushNewMessage',
-                setUserOnline: 'setUserOnline'
+                setUserOnline: 'setUserOnline',
+                pushUnReadConversation: 'pushUnReadConversation'
             }),
             ...mapActions({
-                pushMessageToConversations: 'pushMessageToConversations'
+                pushMessageToConversations: 'pushMessageToConversations',
+                readMessage: 'readMessage'
             }),
             async fetchConversations(query = {}) {
                 return await axios.get('/chat/conversation', query)
