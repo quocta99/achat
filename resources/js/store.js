@@ -8,7 +8,8 @@ const store = new Vuex.Store({
         auth: '',
         conversations: [],
         conversationDetail: '',
-        messages: []
+        messages: [],
+        userOnline: []
     },
     getters: {
         getAuth: state => {
@@ -22,6 +23,9 @@ const store = new Vuex.Store({
         },
         getMessages: state => {
             return state.messages
+        },
+        getUserOnline: state => {
+            return state.userOnline
         }
     },
     mutations: {
@@ -54,6 +58,9 @@ const store = new Vuex.Store({
             if(!!payload) {
                 state.messages = [...state.messages, payload]
             }
+        },
+        setUserOnline(state, payload) {
+            state.userOnline = payload
         }
     },
     actions: {

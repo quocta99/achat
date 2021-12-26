@@ -1935,6 +1935,18 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -1988,6 +2000,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           message: payload
         });
       }
+    });
+    Echo.join('online-event').here(function (users) {
+      _this.setUserOnline(users);
+    }).joining(function (user) {
+      _this.setUserOnline([].concat(_toConsumableArray(_this.userOnline), [user]));
+
+      console.log(user);
+    }).leaving(function (user) {
+      var index = _this.userOnline.findIndex(function (el) {
+        return el.id == user.id;
+      });
+
+      if (index != -1) {
+        _this.setUserOnline([].concat(_toConsumableArray(_this.userOnline.slice(0, index)), _toConsumableArray(_this.userOnline.slice(index + 1))));
+      }
+    }).error(function (error) {
+      console.error(error);
     });
   },
   mounted: function mounted() {
@@ -2044,7 +2073,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setAuth: 'setAuth',
     setConversations: 'setConversations',
     setConversationDetail: 'setConversationDetail',
-    pushNewMessage: 'pushNewMessage'
+    pushNewMessage: 'pushNewMessage',
+    setUserOnline: 'setUserOnline'
   })), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
     pushMessageToConversations: 'pushMessageToConversations'
   })), {}, {
@@ -2152,16 +2182,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['conversation'],
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     selected: 'getConversationDetail'
-  })),
+  })), {}, {
+    classStatus: function classStatus() {
+      var ids = this.userOnline.map(function (el) {
+        return el.id;
+      });
+      return "status ".concat(ids.indexOf(_.get(this.conversation, 'participants.[0].user.id')) != -1 ? 'bg-success' : 'bg-danger');
+    }
+  }),
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
     setConversationDetail: 'setConversationDetail'
   })), {}, {
     handleSelectConversation: function handleSelectConversation() {
+      if (this.selected.id == this.conversation.id) {
+        return false;
+      }
+
       this.setConversationDetail(this.conversation);
       window.history.pushState('', '', "#conversation_".concat(this.conversation.id));
     }
@@ -2222,72 +2264,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2298,10 +2274,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.last_message_id = null;
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     conversation: 'getConversationDetail',
     messages: 'getMessages'
-  })),
+  })), {}, {
+    isOnline: function isOnline() {
+      var ids = this.userOnline.map(function (el) {
+        return el.id;
+      });
+      return ids.indexOf(_.get(this.conversation, 'participants.[0].user.id')) != -1;
+    }
+  }),
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
     setMessages: 'setMessages'
   })), {}, {
@@ -49409,6 +49392,8 @@ var render = function () {
             alt: "",
           },
         }),
+        _vm._v(" "),
+        _c("div", { class: _vm.classStatus }),
       ]),
       _vm._v(" "),
       _c(
@@ -49502,15 +49487,24 @@ var render = function () {
     [
       _c("div", { staticClass: "header border-bottom p-2 px-3 bg-white" }, [
         _c("div", { staticClass: "d-flex align-items-center" }, [
-          _c("img", {
-            staticClass: "img-fluid header-avatar mr-2 border",
-            attrs: {
-              width: "45",
-              height: "45",
-              src: _vm._.get(_vm.conversation, "participants.[0].user.avatar"),
-              alt: "",
-            },
-          }),
+          _c("div", { staticClass: "avatar" }, [
+            _c("img", {
+              staticClass: "img-fluid header-avatar mr-2 border",
+              attrs: {
+                width: "45",
+                height: "45",
+                src: _vm._.get(
+                  _vm.conversation,
+                  "participants.[0].user.avatar"
+                ),
+                alt: "",
+              },
+            }),
+            _vm._v(" "),
+            _c("div", {
+              class: "status " + (_vm.isOnline ? "bg-success" : "bg-danger"),
+            }),
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "header-box flex-fill" }, [
             _c("p", {
@@ -49522,9 +49516,11 @@ var render = function () {
               },
             }),
             _vm._v(" "),
-            _c("small", { staticClass: "text-secondary" }, [
-              _vm._v("Is online"),
-            ]),
+            _vm.isOnline
+              ? _c("small", { staticClass: "text-secondary" }, [
+                  _vm._v("Is online"),
+                ])
+              : _vm._e(),
           ]),
         ]),
       ]),
@@ -49563,6 +49559,15 @@ var render = function () {
               }),
             ]
           }),
+          _vm._v(" "),
+          _vm.messages.length &&
+          _vm.currentUser.id ==
+            _vm._.get(_vm.messages.slice(-1)[0], "sender.id", -1) &&
+          false
+            ? _c("div", { staticClass: "message__item sender mt-2" }, [
+                _vm._m(0),
+              ])
+            : _vm._e(),
         ],
         2
       ),
@@ -49572,7 +49577,27 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "message__item-float d-flex align-items-center flex-row justify-content-end",
+      },
+      [
+        _c(
+          "small",
+          { staticClass: "mb-0 text-secondary d-inline-block text-truncate" },
+          [_c("i", { staticClass: "fal fa-check" }), _vm._v(" Đã xem")]
+        ),
+      ]
+    )
+  },
+]
 render._withStripped = true
 
 
@@ -69143,7 +69168,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    currentUser: 'getAuth'
+    currentUser: 'getAuth',
+    userOnline: 'getUserOnline'
   }))
 });
 
@@ -69187,7 +69213,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     auth: '',
     conversations: [],
     conversationDetail: '',
-    messages: []
+    messages: [],
+    userOnline: []
   },
   getters: {
     getAuth: function getAuth(state) {
@@ -69201,6 +69228,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     getMessages: function getMessages(state) {
       return state.messages;
+    },
+    getUserOnline: function getUserOnline(state) {
+      return state.userOnline;
     }
   },
   mutations: {
@@ -69232,6 +69262,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       if (!!payload) {
         state.messages = [].concat(_toConsumableArray(state.messages), [payload]);
       }
+    },
+    setUserOnline: function setUserOnline(state, payload) {
+      state.userOnline = payload;
     }
   },
   actions: {

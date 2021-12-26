@@ -5,6 +5,7 @@
     }" @click="handleSelectConversation">
         <div class="avatar">
             <img width="50" height="50" :src="_.get(conversation, 'participants.[0].user.avatar')" class="img-fluid header-avatar mr-2 border" alt="" />
+            <div :class="classStatus"></div>
         </div>
         <div class="header-box flex-fill side-bar__item-content">
             <p class="header-name mb-0 d-inline-block text-truncate" v-text="_.get(conversation, 'participants.[0].user.name')"></p>
@@ -26,13 +27,20 @@ export default {
     computed: {
         ...mapGetters({
             selected: 'getConversationDetail'
-        })
+        }),
+        classStatus() {
+            const ids = this.userOnline.map(el => el.id)
+            return `status ${ids.indexOf(_.get(this.conversation, 'participants.[0].user.id')) != -1 ? 'bg-success' : 'bg-danger'}`
+        }
     },
     methods: {
         ...mapMutations({
             setConversationDetail: 'setConversationDetail'
         }),
         handleSelectConversation() {
+            if(this.selected.id == this.conversation.id) {
+                return false
+            }
             this.setConversationDetail(this.conversation)
             window.history.pushState('', '', `#conversation_${this.conversation.id}`)
         }

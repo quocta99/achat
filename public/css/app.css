@@ -11169,3 +11169,16 @@ a.text-dark:focus {
   color: white;
 }
 
+#chat .avatar {
+  position: relative;
+}
+
+#chat .avatar .status {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  right: 18%;
+  bottom: 10%;
+  border-radius: 100px;
+}
+

@@ -21,3 +21,10 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('message-event.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('online-event', function ($user) {
+    return [
+        'id' => $user->id,
+        'email' => $user->email
+    ];
+});

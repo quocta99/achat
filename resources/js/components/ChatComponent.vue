@@ -49,6 +49,27 @@
                         })
                     }
                 });
+
+            Echo.join('online-event')
+                .here((users) => {
+                    this.setUserOnline(users)
+                })
+                .joining((user) => {
+                    this.setUserOnline([...this.userOnline, user])
+                    console.log(user);
+                })
+                .leaving((user) => {
+                    const index = this.userOnline.findIndex(el => el.id == user.id)
+                    if(index != -1) {
+                        this.setUserOnline([
+                            ...this.userOnline.slice(0, index),
+                            ...this.userOnline.slice(index + 1)
+                        ])
+                    }
+                })
+                .error((error) => {
+                    console.error(error);
+                });
         },
         async mounted() {
             this.setAuth(this.auth)
@@ -76,6 +97,7 @@
                 setConversations: 'setConversations',
                 setConversationDetail: 'setConversationDetail',
                 pushNewMessage: 'pushNewMessage',
+                setUserOnline: 'setUserOnline'
             }),
             ...mapActions({
                 pushMessageToConversations: 'pushMessageToConversations'
