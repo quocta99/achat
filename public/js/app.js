@@ -2203,6 +2203,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return el.id;
       });
       return "status ".concat(ids.indexOf(_.get(this.conversation, 'participants.[0].user.id')) != -1 ? 'bg-success' : 'bg-danger');
+    },
+    type: function type() {
+      var type = _.get(this.conversation, 'last_message.message_type', 'text');
+
+      if (!!type && type == 'text') {
+        return '';
+      }
+
+      if (type == 'image') {
+        return '[Image] ';
+      }
+
+      return '[Media] ';
     }
   }),
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
@@ -49449,6 +49462,9 @@ var render = function () {
                       ? "You: "
                       : ""
                   ) +
+                  " " +
+                  _vm._s(_vm.type) +
+                  " " +
                   _vm._s(
                     _vm._.get(_vm.conversation, "last_message.message", "...")
                   ) +

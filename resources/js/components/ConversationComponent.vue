@@ -10,7 +10,7 @@
         <div class="header-box flex-fill side-bar__item-content">
             <p class="header-name mb-0 d-inline-block text-truncate" v-text="_.get(conversation, 'participants.[0].user.name')"></p>
             <span class="mb-0 text-secondary d-inline-block text-truncate">
-                {{ _.get(conversation, 'last_message.sender_id', -1) == currentUser.id ? 'You: ' : '' }}{{ _.get(conversation, 'last_message.message', '...') }}
+                {{ _.get(conversation, 'last_message.sender_id', -1) == currentUser.id ? 'You: ' : '' }} {{ type }} {{ _.get(conversation, 'last_message.message', '...') }}
             </span>
         </div>
         <div class="time header-box ml-1">
@@ -31,6 +31,16 @@ export default {
         classStatus() {
             const ids = this.userOnline.map(el => el.id)
             return `status ${ids.indexOf(_.get(this.conversation, 'participants.[0].user.id')) != -1 ? 'bg-success' : 'bg-danger'}`
+        },
+        type() {
+            const type = _.get(this.conversation, 'last_message.message_type', 'text')
+            if(!!type && type == 'text') {
+                return ''
+            }
+            if(type == 'image') {
+                return '[Image] '
+            }
+            return '[Media] '
         }
     },
     methods: {
