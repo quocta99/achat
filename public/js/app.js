@@ -2471,6 +2471,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2480,16 +2483,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: 'text',
         image_review: '',
         file: ''
-      }
+      },
+      typingData: ''
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
+
+    Echo.join('online-event').listenForWhisper('typing', function (e) {
+      _this.typingData = e;
+      setTimeout(function () {
+        _this.typingData.typing = false;
+      }, 1000);
+    });
+  },
+  mounted: function mounted() {
+    var _this2 = this;
 
     this.setOriginalData();
     var textarea = this.$refs.input;
     textarea.addEventListener("keyup", function () {
-      textarea.style.height = _this.calcHeight(textarea.value) + "px";
+      textarea.style.height = _this2.calcHeight(textarea.value) + "px";
     });
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
@@ -2501,7 +2515,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     pushMessageToConversations: 'pushMessageToConversations'
   })), {}, {
     handleSend: function handleSend() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var payload, response, message;
@@ -2509,7 +2523,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (_this2.formData.message) {
+                if (_this3.formData.message) {
                   _context.next = 2;
                   break;
                 }
@@ -2518,28 +2532,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
                 payload = new FormData();
-                payload.append('message', _this2.formData.message);
-                payload.append('type', _this2.formData.type);
+                payload.append('message', _this3.formData.message);
+                payload.append('type', _this3.formData.type);
 
-                if (_this2.formData.type != 'text') {
-                  payload.append('file', _this2.$refs.image.files[0]);
+                if (_this3.formData.type != 'text') {
+                  payload.append('file', _this3.$refs.image.files[0]);
                 }
 
                 _context.next = 8;
-                return axios.post("/chat/conversation/".concat(_this2.conversation.id, "/message/send"), payload);
+                return axios.post("/chat/conversation/".concat(_this3.conversation.id, "/message/send"), payload);
 
               case 8:
                 response = _context.sent;
 
-                _this2.setOriginalData();
+                _this3.setOriginalData();
 
                 message = _.get(response, 'data.data', null);
 
                 if (!!message) {
-                  _this2.pushNewMessage(message);
+                  _this3.pushNewMessage(message);
 
-                  _this2.pushMessageToConversations({
-                    conversation: _this2.conversation,
+                  _this3.pushMessageToConversations({
+                    conversation: _this3.conversation,
                     message: message
                   });
                 }
@@ -2566,7 +2580,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$refs.input.focus();
     },
     handleChooseImage: function handleChooseImage() {
-      var _this3 = this;
+      var _this4 = this;
 
       var image = this.$refs.image.files[0];
       var extention = image.type.split('/').pop().toLowerCase();
@@ -2579,15 +2593,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var reader = new FileReader();
 
       reader.onload = function () {
-        _this3.formData = _objectSpread(_objectSpread({}, _this3.formData), {}, {
+        _this4.formData = _objectSpread(_objectSpread({}, _this4.formData), {}, {
           image_review: reader.result,
           file: image,
           type: 'image'
         });
 
-        _this3.$refs.input.focus();
+        _this4.$refs.input.focus();
 
-        _this3.$refs.input.value = _this3.$refs.input.value;
+        _this4.$refs.input.value = _this4.$refs.input.value;
       };
 
       reader.readAsDataURL(image);
@@ -2597,6 +2611,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         image_review: '',
         file: '',
         type: 'text'
+      });
+    },
+    isTyping: function isTyping() {
+      var channel = Echo.join('online-event');
+      channel.whisper('typing', {
+        conversation: this.conversation,
+        user: this.currentUser,
+        typing: true
       });
     }
   })
@@ -49712,7 +49734,18 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "p-2 border-top bg-white" }, [
+  return _c("div", { staticClass: "p-2 border-top bg-white readed-form" }, [
+    _vm.typingData.typing &&
+    _vm.typingData.conversation.id == _vm.conversation.id
+      ? _c("div", { staticClass: "readed bg-white border" }, [
+          _c("span", { staticClass: "d-block" }, [
+            _vm._v(
+              _vm._s(_vm.typingData.user.name) + " is typing a new message..."
+            ),
+          ]),
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "div",
       { class: { "mb-2": true, "d-none": !_vm.formData.image_review } },
@@ -49777,23 +49810,26 @@ var render = function () {
           attrs: { type: "text", placeholder: "Typing...", rows: "1" },
           domProps: { value: _vm.formData.message },
           on: {
-            keyup: function ($event) {
-              if (
-                !$event.type.indexOf("key") &&
-                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-              ) {
-                return null
-              }
-              if (
-                $event.ctrlKey ||
-                $event.shiftKey ||
-                $event.altKey ||
-                $event.metaKey
-              ) {
-                return null
-              }
-              return _vm.handleSend.apply(null, arguments)
-            },
+            keyup: [
+              _vm.isTyping,
+              function ($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                if (
+                  $event.ctrlKey ||
+                  $event.shiftKey ||
+                  $event.altKey ||
+                  $event.metaKey
+                ) {
+                  return null
+                }
+                return _vm.handleSend.apply(null, arguments)
+              },
+            ],
             input: function ($event) {
               if ($event.target.composing) {
                 return

@@ -57,7 +57,7 @@
                             message: payload.id
                         })
                     }
-                });
+                })
 
             Echo.join('online-event')
                 .here((users) => {
@@ -77,7 +77,7 @@
                 })
                 .error((error) => {
                     console.error(error);
-                });
+                })
 
             Echo.channel('seen-message')
                 .listen('SeenMessageEvent', ({message_id, user}) => {

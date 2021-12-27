@@ -1,5 +1,8 @@
 <template>
-    <div class="p-2 border-top bg-white">
+    <div class="p-2 border-top bg-white readed-form">
+        <div class="readed bg-white border" v-if="typingData.typing && typingData.conversation.id == conversation.id">
+            <span class="d-block">{{ typingData.user.name }} is typing a new message...</span>
+        </div>
         <div :class="{'mb-2': true, 'd-none': !formData.image_review}">
             <div class="image-review">
                 <div class="image-review__box">
@@ -14,7 +17,7 @@
                 <input type="file" name="" class="d-none" ref="image" @change="handleChooseImage" />
             </span>
             <div class="input-group search form-send-message">
-                <textarea type="text" ref="input" @keyup.enter.exact="handleSend" v-model="formData.message" class="form-control" placeholder="Typing..." rows="1"></textarea>
+                <textarea @keyup="isTyping" type="text" ref="input" @keyup.enter.exact="handleSend" v-model="formData.message" class="form-control" placeholder="Typing..." rows="1"></textarea>
             </div>
             <button class="btn btn-primary ml-2 new-chat" @click="handleSend">
                 <i class="fal fa-paper-plane"></i>
@@ -33,8 +36,19 @@ export default {
                 type: 'text',
                 image_review: '',
                 file: ''
-            }
+            },
+            typingData: ''
         }
+    },
+    created() {
+        Echo.join('online-event')
+            .listenForWhisper('typing', (e) => {
+                this.typingData = e
+
+                setTimeout(() => {
+                    this.typingData.typing = false
+                }, 1000);
+            });
     },
     mounted() {
         this.setOriginalData()
@@ -118,7 +132,16 @@ export default {
                 file: '',
                 type: 'text'
             }
-        }
+        },
+        isTyping() {
+            let channel = Echo.join('online-event');
+
+            channel.whisper('typing', {
+                conversation: this.conversation,
+                user: this.currentUser,
+                typing: true
+            });
+        },
     }
 }
 </script>

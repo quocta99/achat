@@ -11182,3 +11182,14 @@ a.text-dark:focus {
   border-radius: 100px;
 }
 
+#chat .readed-form {
+  position: relative;
+}
+
+#chat .readed-form .readed {
+  position: absolute;
+  top: -29px;
+  left: -1px;
+  padding: 2px 10px;
+}
+
