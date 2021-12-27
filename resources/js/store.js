@@ -75,7 +75,7 @@ const store = new Vuex.Store({
                     {
                         ...state.conversations[index],
                         unread: [
-                            ...state.conversations[index].unread,
+                            ..._.get(state.conversations[index], 'unread', []),
                             message
                         ]
                     },

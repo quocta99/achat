@@ -69362,7 +69362,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
 
       if (index != -1) {
         state.conversations = [].concat(_toConsumableArray(state.conversations.slice(0, index)), [_objectSpread(_objectSpread({}, state.conversations[index]), {}, {
-          unread: [].concat(_toConsumableArray(state.conversations[index].unread), [message])
+          unread: [].concat(_toConsumableArray(_.get(state.conversations[index], 'unread', [])), [message])
         })], _toConsumableArray(state.conversations.slice(index + 1)));
       }
     },
