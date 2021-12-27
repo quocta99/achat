@@ -28,9 +28,16 @@ class ChatSeeder extends Seeder
             'avatar' => '/images/avatar-1.jpeg'
         ]);
 
+        User::create([
+            'name' => 'User',
+            'email' => 'user@admin.com',
+            'password' => bcrypt('password'),
+            'avatar' => '/images/avatar-2.jpeg'
+        ]);
+
         $faker = \Faker\Factory::create();
 
-        for ($i=0; $i < 99; $i++) { 
+        for ($i=0; $i < 48; $i++) { 
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->email,
