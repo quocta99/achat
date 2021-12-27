@@ -90,6 +90,21 @@ const store = new Vuex.Store({
         },
         setUserOnline(state, payload) {
             state.userOnline = payload
+        },
+        readedMessage(state, {message, user}) {
+            if(state.messages.length) {
+                const index = state.messages.findIndex(el => el.id == message)
+                if(index != -1) {
+                    state.messages = [
+                        ...state.messages.slice(0, index),
+                        {
+                            ...state.messages[index],
+                            readed: [...state.messages[index].readed, user]
+                        },
+                        ...state.messages.slice(index + 1)
+                    ]
+                }
+            }
         }
     },
     actions: {

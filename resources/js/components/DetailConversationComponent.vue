@@ -17,9 +17,9 @@
             <template v-for="(message, index) in messages" >
                 <message-component :key="index" :message="message" />
             </template>
-            <div class="message__item sender mt-2" v-if="messages.length && currentUser.id == _.get(messages.slice(-1)[0], 'sender.id', -1) && false">
+            <div class="message__item sender mt-2" v-if="messages.length && currentUser.id == _.get(lastMessage, 'sender.id', -1) && isReaded">
                 <div class="message__item-float d-flex align-items-center flex-row justify-content-end">
-                    <small class="mb-0 text-secondary d-inline-block text-truncate"><i class="fal fa-check"></i> Đã xem</small>
+                    <small class="mb-0 text-secondary d-inline-block text-truncate"><i class="fal fa-check"></i> Seen by {{ _.get(lastMessage, 'sender.name', '') }}</small>
                 </div>
             </div>
         </div>
@@ -46,6 +46,25 @@ export default {
         isOnline() {
             const ids = this.userOnline.map(el => el.id)
             return ids.indexOf(_.get(this.conversation, 'participants.[0].user.id')) != -1
+        },
+        lastMessage() {
+            if(this.messages.length) {
+                return this.messages.slice(-1)[0]
+            }
+            return null
+        },
+        isReaded() {
+            if(!this.lastMessage) {
+                return false
+            }
+            const isSeen = _.get(this.lastMessage, 'readed', []).filter((el) => {
+                return el.id != this.currentUser.id
+            })[0] || null
+
+            if(isSeen) {
+                return true
+            }
+            return false
         }
     },
     methods: {

@@ -3,6 +3,7 @@
 namespace App\Supports;
 
 use App\Events\MessageEvent;
+use App\Events\SeenMessageEvent;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\User;
@@ -340,7 +341,12 @@ class Chat {
         if(!is_array($message)) {
             $message = [$message];
         }
+        rsort($message);
 
-        User::find($user)->readed()->attach($message);
+        $user = User::find($user);
+        if(!blank($user)) {
+            $user->readed()->attach($message);
+            broadcast(new SeenMessageEvent(array_shift($message), $user));
+        }
     }
 }

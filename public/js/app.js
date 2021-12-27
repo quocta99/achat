@@ -1995,7 +1995,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           message: payload
         });
 
-        _this.readMessage();
+        _this.readMessage(payload.conversation_id);
       } else {
         _this.pushMessageToConversations({
           conversation: payload.conversation,
@@ -2012,8 +2012,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       _this.setUserOnline(users);
     }).joining(function (user) {
       _this.setUserOnline([].concat(_toConsumableArray(_this.userOnline), [user]));
-
-      console.log(user);
     }).leaving(function (user) {
       var index = _this.userOnline.findIndex(function (el) {
         return el.id == user.id;
@@ -2024,6 +2022,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     }).error(function (error) {
       console.error(error);
+    });
+    Echo.channel('seen-message').listen('SeenMessageEvent', function (_ref2) {
+      var message_id = _ref2.message_id,
+          user = _ref2.user;
+
+      _this.readedMessage({
+        message: message_id,
+        user: user
+      });
     });
   },
   mounted: function mounted() {
@@ -2082,7 +2089,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     setConversationDetail: 'setConversationDetail',
     pushNewMessage: 'pushNewMessage',
     setUserOnline: 'setUserOnline',
-    pushUnReadConversation: 'pushUnReadConversation'
+    pushUnReadConversation: 'pushUnReadConversation',
+    readedMessage: 'readedMessage'
   })), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
     pushMessageToConversations: 'pushMessageToConversations',
     readMessage: 'readMessage'
@@ -2322,6 +2330,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return el.id;
       });
       return ids.indexOf(_.get(this.conversation, 'participants.[0].user.id')) != -1;
+    },
+    lastMessage: function lastMessage() {
+      if (this.messages.length) {
+        return this.messages.slice(-1)[0];
+      }
+
+      return null;
+    },
+    isReaded: function isReaded() {
+      var _this2 = this;
+
+      if (!this.lastMessage) {
+        return false;
+      }
+
+      var isSeen = _.get(this.lastMessage, 'readed', []).filter(function (el) {
+        return el.id != _this2.currentUser.id;
+      })[0] || null;
+
+      if (isSeen) {
+        return true;
+      }
+
+      return false;
     }
   }),
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])({
@@ -2330,7 +2362,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     readMessage: 'readMessage'
   })), {}, {
     infiniteHandler: function infiniteHandler($state) {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var res;
@@ -2339,9 +2371,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.get("/chat/conversation/".concat(_this2.conversation.id, "/message"), _this2.last_message_id ? {
+                return axios.get("/chat/conversation/".concat(_this3.conversation.id, "/message"), _this3.last_message_id ? {
                   params: {
-                    last_message_id: _this2.last_message_id
+                    last_message_id: _this3.last_message_id
                   }
                 } : {});
 
@@ -2349,9 +2381,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 res = _context2.sent;
 
                 if (!!res.data) {
-                  _this2.setMessages(_.get(res, 'data.data.messages', []));
+                  _this3.setMessages(_.get(res, 'data.data.messages', []));
 
-                  _this2.last_message_id = _.get(res, 'data.data.last_message_id', null);
+                  _this3.last_message_id = _.get(res, 'data.data.last_message_id', null);
                 }
 
                 $state.loaded();
@@ -49602,11 +49634,34 @@ var render = function () {
           }),
           _vm._v(" "),
           _vm.messages.length &&
-          _vm.currentUser.id ==
-            _vm._.get(_vm.messages.slice(-1)[0], "sender.id", -1) &&
-          false
+          _vm.currentUser.id == _vm._.get(_vm.lastMessage, "sender.id", -1) &&
+          _vm.isReaded
             ? _c("div", { staticClass: "message__item sender mt-2" }, [
-                _vm._m(0),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "message__item-float d-flex align-items-center flex-row justify-content-end",
+                  },
+                  [
+                    _c(
+                      "small",
+                      {
+                        staticClass:
+                          "mb-0 text-secondary d-inline-block text-truncate",
+                      },
+                      [
+                        _c("i", { staticClass: "fal fa-check" }),
+                        _vm._v(
+                          " Seen by " +
+                            _vm._s(
+                              _vm._.get(_vm.lastMessage, "sender.name", "")
+                            )
+                        ),
+                      ]
+                    ),
+                  ]
+                ),
               ])
             : _vm._e(),
         ],
@@ -49618,27 +49673,7 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "message__item-float d-flex align-items-center flex-row justify-content-end",
-      },
-      [
-        _c(
-          "small",
-          { staticClass: "mb-0 text-secondary d-inline-block text-truncate" },
-          [_c("i", { staticClass: "fal fa-check" }), _vm._v(" Đã xem")]
-        ),
-      ]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -69338,15 +69373,31 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     },
     setUserOnline: function setUserOnline(state, payload) {
       state.userOnline = payload;
+    },
+    readedMessage: function readedMessage(state, _ref2) {
+      var message = _ref2.message,
+          user = _ref2.user;
+
+      if (state.messages.length) {
+        var index = state.messages.findIndex(function (el) {
+          return el.id == message;
+        });
+
+        if (index != -1) {
+          state.messages = [].concat(_toConsumableArray(state.messages.slice(0, index)), [_objectSpread(_objectSpread({}, state.messages[index]), {}, {
+            readed: [].concat(_toConsumableArray(state.messages[index].readed), [user])
+          })], _toConsumableArray(state.messages.slice(index + 1)));
+        }
+      }
     }
   },
   actions: {
-    pushMessageToConversations: function pushMessageToConversations(_ref2, _ref3) {
-      var dispatch = _ref2.dispatch,
-          commit = _ref2.commit,
-          state = _ref2.state;
-      var conversation = _ref3.conversation,
-          message = _ref3.message;
+    pushMessageToConversations: function pushMessageToConversations(_ref3, _ref4) {
+      var dispatch = _ref3.dispatch,
+          commit = _ref3.commit,
+          state = _ref3.state;
+      var conversation = _ref4.conversation,
+          message = _ref4.message;
       var index = state.conversations.findIndex(function (el) {
         return el.id == conversation.id;
       });
@@ -69359,14 +69410,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
         last_message: message
       }));
     },
-    readMessage: function readMessage(_ref4, conversation) {
+    readMessage: function readMessage(_ref5, conversation) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var dispatch, commit, state, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                dispatch = _ref4.dispatch, commit = _ref4.commit, state = _ref4.state;
+                dispatch = _ref5.dispatch, commit = _ref5.commit, state = _ref5.state;
                 _context.next = 3;
                 return axios.post("/chat/conversation/".concat(conversation, "/message/read"), {
                   user_id: state.auth.id

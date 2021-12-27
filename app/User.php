@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Message::class, 'readed_messages');
     }
+
+    public function getAvatarAttribute($value)
+    {
+        return $value ?: '/images/avatar-default.jpeg';
+    }
 }

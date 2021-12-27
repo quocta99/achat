@@ -42,7 +42,7 @@
                             conversation: this.selected,
                             message: payload
                         })
-                        this.readMessage()
+                        this.readMessage(payload.conversation_id)
                     }else {
                         this.pushMessageToConversations({
                             conversation: payload.conversation, 
@@ -61,7 +61,6 @@
                 })
                 .joining((user) => {
                     this.setUserOnline([...this.userOnline, user])
-                    console.log(user);
                 })
                 .leaving((user) => {
                     const index = this.userOnline.findIndex(el => el.id == user.id)
@@ -75,6 +74,11 @@
                 .error((error) => {
                     console.error(error);
                 });
+
+            Echo.channel('seen-message')
+                .listen('SeenMessageEvent', ({message_id, user}) => {
+                    this.readedMessage({message: message_id, user})
+                })
         },
         async mounted() {
             this.setAuth(this.auth)
@@ -103,7 +107,8 @@
                 setConversationDetail: 'setConversationDetail',
                 pushNewMessage: 'pushNewMessage',
                 setUserOnline: 'setUserOnline',
-                pushUnReadConversation: 'pushUnReadConversation'
+                pushUnReadConversation: 'pushUnReadConversation',
+                readedMessage: 'readedMessage'
             }),
             ...mapActions({
                 pushMessageToConversations: 'pushMessageToConversations',
