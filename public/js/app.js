@@ -2484,15 +2484,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         image_review: '',
         file: ''
       },
-      typingData: ''
+      typingData: '',
+      timeout: null
     };
   },
   created: function created() {
     var _this = this;
 
     Echo.join('online-event').listenForWhisper('typing', function (e) {
+      clearTimeout(_this.timeout);
       _this.typingData = e;
-      setTimeout(function () {
+      _this.timeout = setTimeout(function () {
         _this.typingData.typing = false;
       }, 1000);
     });

@@ -37,15 +37,17 @@ export default {
                 image_review: '',
                 file: ''
             },
-            typingData: ''
+            typingData: '',
+            timeout: null
         }
     },
     created() {
         Echo.join('online-event')
             .listenForWhisper('typing', (e) => {
+                clearTimeout(this.timeout)
                 this.typingData = e
 
-                setTimeout(() => {
+                this.timeout = setTimeout(() => {
                     this.typingData.typing = false
                 }, 1000);
             });
