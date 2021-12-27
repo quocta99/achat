@@ -35,7 +35,7 @@
         },
         created() {
             Echo.private(`message-event.${this.auth.id}`)
-                .listen('MessageEvent', ({message, payload}) => {
+                .listen('MessageEvent', async ({message, payload}) => {
                     if(!!this.selected && this.selected.id == payload.conversation_id) {
                         this.pushNewMessage(payload)
                         this.pushMessageToConversations({
@@ -44,6 +44,10 @@
                         })
                         this.readMessage(payload.conversation_id)
                     }else {
+                        if(this.conversations.length == 0) {
+                            await this.infiniteHandler()
+                            return false
+                        }
                         this.pushMessageToConversations({
                             conversation: payload.conversation, 
                             message: payload
@@ -114,10 +118,7 @@
                 pushMessageToConversations: 'pushMessageToConversations',
                 readMessage: 'readMessage'
             }),
-            async fetchConversations(query = {}) {
-                return await axios.get('/chat/conversation', query)
-            },
-            async infiniteHandler($state) {
+            async infiniteHandler($state = null) {
                 const res = await axios.get('/chat/conversation', this.last_conversation_id ? {
                     params: {
                         last_conversation_id: this.last_conversation_id
@@ -127,9 +128,11 @@
                     this.setConversations(_.get(res, 'data.data.conversations', []))
                     this.last_conversation_id = _.get(res, 'data.data.last_conversation_id', null)
                 }
-                $state.loaded()
-                if(_.get(res, 'data.data.conversations', []).length == 0) {
-                    $state.complete()
+                if(!!$state) {
+                    $state.loaded()
+                    if(_.get(res, 'data.data.conversations', []).length == 0) {
+                        $state.complete()
+                    }
                 }
             }
         }

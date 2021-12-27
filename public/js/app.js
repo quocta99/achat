@@ -1929,12 +1929,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1946,6 +1940,12 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 //
 //
@@ -1983,31 +1983,67 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   created: function created() {
     var _this = this;
 
-    Echo["private"]("message-event.".concat(this.auth.id)).listen('MessageEvent', function (_ref) {
-      var message = _ref.message,
-          payload = _ref.payload;
+    Echo["private"]("message-event.".concat(this.auth.id)).listen('MessageEvent', /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref) {
+        var message, payload;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                message = _ref.message, payload = _ref.payload;
 
-      if (!!_this.selected && _this.selected.id == payload.conversation_id) {
-        _this.pushNewMessage(payload);
+                if (!(!!_this.selected && _this.selected.id == payload.conversation_id)) {
+                  _context.next = 7;
+                  break;
+                }
 
-        _this.pushMessageToConversations({
-          conversation: _this.selected,
-          message: payload
-        });
+                _this.pushNewMessage(payload);
 
-        _this.readMessage(payload.conversation_id);
-      } else {
-        _this.pushMessageToConversations({
-          conversation: payload.conversation,
-          message: payload
-        });
+                _this.pushMessageToConversations({
+                  conversation: _this.selected,
+                  message: payload
+                });
 
-        _this.pushUnReadConversation({
-          conversation: payload.conversation_id,
-          message: payload.id
-        });
-      }
-    });
+                _this.readMessage(payload.conversation_id);
+
+                _context.next = 13;
+                break;
+
+              case 7:
+                if (!(_this.conversations.length == 0)) {
+                  _context.next = 11;
+                  break;
+                }
+
+                _context.next = 10;
+                return _this.infiniteHandler();
+
+              case 10:
+                return _context.abrupt("return", false);
+
+              case 11:
+                _this.pushMessageToConversations({
+                  conversation: payload.conversation,
+                  message: payload
+                });
+
+                _this.pushUnReadConversation({
+                  conversation: payload.conversation_id,
+                  message: payload.id
+                });
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref2.apply(this, arguments);
+      };
+    }());
     Echo.join('online-event').here(function (users) {
       _this.setUserOnline(users);
     }).joining(function (user) {
@@ -2023,9 +2059,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }).error(function (error) {
       console.error(error);
     });
-    Echo.channel('seen-message').listen('SeenMessageEvent', function (_ref2) {
-      var message_id = _ref2.message_id,
-          user = _ref2.user;
+    Echo.channel('seen-message').listen('SeenMessageEvent', function (_ref3) {
+      var message_id = _ref3.message_id,
+          user = _ref3.user;
 
       _this.readedMessage({
         message: message_id,
@@ -2036,47 +2072,47 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   mounted: function mounted() {
     var _this2 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
       var conversaionID, res;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
               _this2.setAuth(_this2.auth);
 
-              _context.prev = 1;
+              _context2.prev = 1;
               conversaionID = window.location.hash.replace('#conversation_', '');
 
               if (!(!!conversaionID && conversaionID != undefined)) {
-                _context.next = 8;
+                _context2.next = 8;
                 break;
               }
 
-              _context.next = 6;
+              _context2.next = 6;
               return axios.get("/chat/conversation/".concat(conversaionID));
 
             case 6:
-              res = _context.sent;
+              res = _context2.sent;
 
               if (_.get(res, 'data.data')) {
                 _this2.setConversationDetail(_.get(res, 'data.data', ''));
               }
 
             case 8:
-              _context.next = 13;
+              _context2.next = 13;
               break;
 
             case 10:
-              _context.prev = 10;
-              _context.t0 = _context["catch"](1);
-              console.log('error', _context.t0);
+              _context2.prev = 10;
+              _context2.t0 = _context2["catch"](1);
+              console.log('error', _context2.t0);
 
             case 13:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee, null, [[1, 10]]);
+      }, _callee2, null, [[1, 10]]);
     }))();
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
@@ -2095,46 +2131,25 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     pushMessageToConversations: 'pushMessageToConversations',
     readMessage: 'readMessage'
   })), {}, {
-    fetchConversations: function fetchConversations() {
-      var _arguments = arguments;
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var query;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                query = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : {};
-                _context2.next = 3;
-                return axios.get('/chat/conversation', query);
-
-              case 3:
-                return _context2.abrupt("return", _context2.sent);
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    infiniteHandler: function infiniteHandler($state) {
-      var _this3 = this;
+    infiniteHandler: function infiniteHandler() {
+      var _arguments = arguments,
+          _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var res;
+        var $state, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                $state = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : null;
+                _context3.next = 3;
                 return axios.get('/chat/conversation', _this3.last_conversation_id ? {
                   params: {
                     last_conversation_id: _this3.last_conversation_id
                   }
                 } : {});
 
-              case 2:
+              case 3:
                 res = _context3.sent;
 
                 if (!!res.data) {
@@ -2143,10 +2158,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                   _this3.last_conversation_id = _.get(res, 'data.data.last_conversation_id', null);
                 }
 
-                $state.loaded();
+                if (!!$state) {
+                  $state.loaded();
 
-                if (_.get(res, 'data.data.conversations', []).length == 0) {
-                  $state.complete();
+                  if (_.get(res, 'data.data.conversations', []).length == 0) {
+                    $state.complete();
+                  }
                 }
 
               case 6:
